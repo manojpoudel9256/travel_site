@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EVEREST — Scroll Experience</title>
+
+<!-- Fonts: DM Sans + Playfair Display (same as banner design) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"DM Sans"', 'sans-serif'],
+          serif: ['"Playfair Display"', 'serif'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: #050505; }
+  body { overflow-x: hidden; }
+
+  /* Fixed canvas background driven by scroll */
+  #frames {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+  }
+  /* Scroll reveal animations (replay every time a section enters the viewport).
+     Uses the independent `translate`/`scale` CSS properties so they stack with
+     Tailwind's transform utilities (lg:translate-y-*) instead of overriding them. */
+  .reveal {
+    transition:
+      opacity 1s cubic-bezier(.16, 1, .3, 1),
+      translate 1s cubic-bezier(.16, 1, .3, 1),
+      scale 1s cubic-bezier(.16, 1, .3, 1);
+    will-change: opacity, translate;
+  }
+  .reveal:not(.visible) {
+    opacity: 0;
+    translate: 0 40px;
+  }
+  .reveal.from-top:not(.visible)   { translate: 0 -15px; }
+  .reveal.from-left:not(.visible)  { translate: -40px 0; }
+  .reveal.from-right:not(.visible) { translate: 40px 0; }
+  .reveal.from-scale:not(.visible) { translate: 0 0; scale: .9; }
+
+  /* Word-by-word headline reveal */
+  .reveal-words .word {
+    display: inline-block;
+    transition:
+      opacity .8s cubic-bezier(.16, 1, .3, 1),
+      transform .8s cubic-bezier(.16, 1, .3, 1),
+      filter .8s cubic-bezier(.16, 1, .3, 1);
+    transition-delay: var(--wd, 0s);
+    will-change: opacity, transform, filter;
+  }
+  .reveal-words:not(.visible) .word {
+    opacity: 0;
+    transform: translateY(.6em);
+    filter: blur(6px);
+  }
+
+  /* Section tag pills glide their letter-spacing in */
+  .reveal.tag-glide {
+    transition:
+      opacity 1s cubic-bezier(.16, 1, .3, 1),
+      transform 1s cubic-bezier(.16, 1, .3, 1),
+      letter-spacing 1.2s cubic-bezier(.16, 1, .3, 1);
+  }
+  .reveal.tag-glide:not(.visible) { letter-spacing: .6em; }
+
+  /* Ambient idle animations so the page breathes even between scrolls */
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
+  }
+  .float-badge { animation: floaty 3.5s ease-in-out infinite; }
+
+  @keyframes glowpulse {
+    0%, 100% { opacity: .45; }
+    50%      { opacity: 1; }
+  }
+  .glow-pulse { animation: glowpulse 6s ease-in-out infinite; }
+
+  @keyframes diamondspin {
+    from { transform: rotate(45deg); }
+    to   { transform: rotate(405deg); }
+  }
+  .diamond-spin { animation: diamondspin 10s linear infinite; }
+
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { scrollbar-width: none; }
+</style>
+</head>
+
+<body class="bg-[#050505] text-white font-sans antialiased selection:bg-neutral-800 selection:text-white">
+
+  <!-- ===== SCROLL-DRIVEN FRAME ANIMATION (fixed background) ===== -->
+  <canvas id="frames"></canvas>
+
+  <!-- ===== PAGE CONTENT (scrolls over the animation) ===== -->
+  <main class="relative z-10">
+
+    <!-- Top readability strip: darkens only the nav area, fades out quickly -->
+    <div class="absolute top-0 left-0 right-0 h-36 bg-gradient-to-b from-black/70 via-black/25 to-transparent pointer-events-none"></div>
+
+    <!-- 1. HERO: EVEREST BANNER -->
+    <section class="relative min-h-screen w-full flex flex-col justify-start py-8 px-4 sm:px-8 md:px-16 lg:px-20 max-w-7xl mx-auto">
+
+      <!-- Header navigation -->
+      <header class="reveal from-top w-full flex flex-row justify-between items-center md:grid md:grid-cols-3 md:items-center pb-4">
+        <!-- Logo -->
+        <div class="flex items-center justify-start">
+          <span class="text-white font-extrabold text-xl md:text-2xl tracking-[0.08em] select-none [text-shadow:0_2px_10px_rgba(0,0,0,.7)]">EVEREST</span>
+        </div>
+
+        <!-- Centered nav pill -->
+        <div class="hidden md:flex justify-center items-center">
+          <nav id="main-nav" class="flex items-center bg-black/35 backdrop-blur-md border border-white/15 rounded-full p-1.5 flex-nowrap whitespace-nowrap overflow-x-auto scrollbar-none shadow-lg shadow-black/20">
+            <button data-nav class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap bg-white text-black font-semibold shadow-md">Home</button>
+            <button data-nav class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Solutions</button>
+            <button data-nav class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Projects</button>
+            <button data-nav class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">About us</button>
+            <button data-nav class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Contact</button>
+          </nav>
+        </div>
+
+        <!-- Open menu button -->
+        <div class="flex items-center justify-end">
+          <button class="bg-black/35 backdrop-blur-md hover:bg-black/50 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-lg shadow-black/20">
+            <span>Open menu</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Hero title & CTA — centered in the space between header and cards -->
+      <div class="flex-1 flex flex-col items-center justify-center text-center max-w-4xl mx-auto w-full">
+        <h1 data-split class="text-[30px] sm:text-[42px] md:text-[54px] font-medium tracking-tight leading-[1.15] text-white select-none max-w-2xl">
+          <span class="block">Experience the</span>
+          <span class="block">Majesty of</span>
+          <span class="block">Mount Everest</span>
+        </h1>
+
+        <p class="reveal text-[13px] sm:text-[14px] md:text-[15px] text-white/70 font-normal max-w-[26rem] mt-3 md:mt-4 leading-relaxed select-none" style="transition-delay:.3s">
+          Explore breathtaking Himalayan landscapes, iconic trekking trails, and authentic Sherpa culture. Let us guide you on an unforgettable Everest adventure.
+        </p>
+
+        <div class="reveal from-scale mt-4 md:mt-5" style="transition-delay:.45s">
+          <button class="group bg-white text-black pl-7 pr-2 py-2 rounded-full font-semibold text-sm sm:text-base flex items-center gap-4 hover:bg-neutral-100 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 cursor-pointer shadow-lg shadow-white/5"
+                  onclick="alert('Exploring Mount Everest adventure tours!')">
+            <span class="text-black font-medium tracking-wide">Explore Tours</span>
+            <span class="bg-[#0051e0] group-hover:bg-[#0041b3] text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 shadow-md">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom glassmorphic cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-[780px] mx-auto mt-auto mb-4">
+        <!-- Left card -->
+        <div class="reveal relative bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[24px] p-5 md:p-6 flex flex-col items-start hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300 group" style="transition-delay:.6s">
+          <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="float-badge"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">25+ Curated Adventure Tours</h3>
+          <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Choose from trekking, helicopter tours, cultural experiences, and tailor-made Himalayan expeditions.</p>
+        </div>
+
+        <!-- Right card -->
+        <div class="reveal relative bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[24px] p-5 md:p-6 flex flex-col items-start hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300 group" style="transition-delay:.75s">
+          <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="float-badge" style="animation-delay:.8s"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+          </div>
+          <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">100% Local Expert Guides</h3>
+          <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Explore with experienced, licensed guides who know every trail, viewpoint, and hidden gem of the Everest region.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. PROUDLY TRUSTED BY LEADING BRANDS -->
+    <section class="relative w-full border-t border-white/5">
+      <div class="py-20 px-4 sm:px-8 md:px-16 lg:px-20 max-w-7xl mx-auto flex flex-col items-center justify-center relative overflow-hidden">
+
+        <!-- Ambient spotlight -->
+        <div class="glow-pulse absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[500px] h-[200px] sm:h-[300px] bg-gradient-to-r from-red-950/15 via-neutral-900/10 to-blue-950/15 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
+          <h2 data-split class="text-3xl sm:text-4xl md:text-[54px] leading-[1.1] tracking-tight text-white mb-5 select-none font-normal">
+            <span class="font-serif italic font-light block mb-1 text-white/95">Proudly Trusted</span>
+            <span class="block font-medium text-white/95">by Leading Brands</span>
+            <span class="relative inline-flex items-center gap-1.5 font-medium text-white/95 justify-center">
+              Across Industries
+              <span class="inline-flex items-center justify-center text-[8px] md:text-[10px] font-extrabold text-[#ff3b30] border-2 border-[#ff3b30] rounded-full w-4 h-4 md:w-5 md:h-5 transform translate-y-[-3px] sm:translate-y-[-5px] select-none">R</span>
+            </span>
+          </h2>
+
+          <p class="reveal text-white/60 text-[13px] sm:text-[14px] leading-relaxed max-w-md select-none font-normal mb-12" style="transition-delay:.15s">
+            We've partnered with leading brands to deliver innovative and impactful architectural solutions
+          </p>
+        </div>
+
+        <!-- Brand logos row -->
+        <div class="w-full max-w-4xl z-10 border-t border-white/10 pt-10">
+          <div data-stagger="0.12" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 md:gap-12 items-center justify-items-center opacity-60 hover:opacity-85 transition-opacity duration-300">
+
+            <div class="reveal from-scale flex flex-col items-center gap-2 group cursor-pointer text-white/60 hover:text-white transition-colors">
+              <svg viewBox="0 0 100 40" class="h-8 w-auto fill-current">
+                <path d="M10 32 L20 10 L30 32 Z M25 32 L35 5 L45 32 Z M40 32 L50 15 L60 32 Z" stroke="currentColor" stroke-width="2.5" fill="none" />
+                <text x="65" y="24" style="font-weight:800;font-size:12px;letter-spacing:.1em">APEX</text>
+              </svg>
+            </div>
+
+            <div class="reveal from-scale flex flex-col items-center gap-2 group cursor-pointer text-white/60 hover:text-white transition-colors">
+              <svg viewBox="0 0 180 40" class="h-8 w-auto fill-current">
+                <path d="M15 12 L30 12 M15 20 L35 20 M15 28 L30 28" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none" />
+                <path d="M15 12 C10 12, 10 28, 15 28" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none" />
+                <text x="45" y="20" style="font-weight:800;font-size:12px;letter-spacing:.06em">CONDON</text>
+                <text x="45" y="30" style="font-weight:700;font-size:7.5px;letter-spacing:.22em" fill="#a3a3a3">CONSTRUCTION</text>
+              </svg>
+            </div>
+
+            <div class="reveal from-scale flex flex-col items-center gap-2 group cursor-pointer text-white/60 hover:text-white transition-colors">
+              <svg viewBox="0 0 200 40" class="h-8 w-auto fill-current">
+                <circle cx="20" cy="20" r="9" stroke="currentColor" stroke-width="2.5" fill="none" />
+                <path d="M13 13 L27 27" stroke="#ff3b30" stroke-width="3" />
+                <text x="38" y="19" style="font-weight:700;font-size:13px;letter-spacing:.03em">Morrison</text>
+                <text x="38" y="29" style="font-weight:300;font-size:9px;letter-spacing:.1em" fill="#a3a3a3">CONSTRUCTION</text>
+              </svg>
+            </div>
+
+            <div class="reveal from-scale flex flex-col items-center gap-2 group cursor-pointer text-white/60 hover:text-white transition-colors">
+              <svg viewBox="0 0 120 40" class="h-8 w-auto fill-current">
+                <rect x="10" y="10" width="6" height="22" fill="none" stroke="currentColor" stroke-width="2.5" />
+                <rect x="20" y="5" width="6" height="27" fill="none" stroke="currentColor" stroke-width="2.5" />
+                <rect x="30" y="15" width="6" height="17" fill="none" stroke="currentColor" stroke-width="2.5" />
+                <text x="44" y="24" style="font-weight:800;font-size:12px;letter-spacing:.1em">METRO</text>
+              </svg>
+            </div>
+
+            <div class="reveal from-scale flex flex-col items-center gap-2 group cursor-pointer text-white/60 hover:text-white transition-colors">
+              <svg viewBox="0 0 120 40" class="h-8 w-auto fill-current">
+                <path d="M10 32 L10 10 C10 10, 25 5, 40 10 L40 32 M20 32 L20 18 C20 18, 25 15, 30 18 L30 32" stroke="currentColor" stroke-width="2.5" fill="none" />
+                <text x="50" y="24" style="font-weight:800;font-size:12px;letter-spacing:.1em">VISTA</text>
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. KINETIC STUDIO — SMM AGENCY -->
+    <section class="relative w-full border-t border-white/5">
+      <div class="py-24 px-4 sm:px-8 md:px-16 lg:px-20 max-w-7xl mx-auto flex flex-col items-center justify-start relative overflow-hidden">
+
+        <div class="glow-pulse absolute -top-12 left-1/4 w-[350px] h-[350px] bg-red-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative z-10 w-full text-center max-w-5xl mx-auto mb-16">
+          <span class="reveal tag-glide text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">About studio</span>
+
+          <h2 data-split class="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] leading-[1.2] tracking-tight font-medium text-white max-w-4xl mx-auto mb-6 select-none">
+            <span class="inline-flex items-center gap-2.5">
+              <span class="diamond-spin w-4 h-4 sm:w-5 sm:h-5 bg-[#ff3b30] rounded-sm transform rotate-45 flex-shrink-0"></span>
+              <span>Kinetic Studio — is an SMM</span>
+            </span>
+            agency of bold
+            <span class="relative inline-flex items-center px-4 py-1 mx-1 rounded-full bg-gradient-to-r from-red-600 via-orange-600 to-red-700 text-white shadow-md border border-white/15 align-middle transform -translate-y-1">
+              <span class="w-1.5 h-1.5 bg-white rounded-full animate-ping mr-1.5"></span>
+              <span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase font-mono">Creators</span>
+            </span>
+            <span class="text-white/40">that delivers the power of social media with</span>
+            <span class="relative inline-flex items-center px-4 py-1 mx-1 rounded-full bg-gradient-to-r from-orange-500 via-red-600 to-orange-700 text-white shadow-md border border-white/15 align-middle transform -translate-y-1">
+              <span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase font-mono">Impact</span>
+            </span>
+            cutting-edge strategy
+          </h2>
+
+          <p class="reveal text-white/40 text-xs sm:text-[13px] leading-relaxed max-w-md mx-auto select-none font-normal" style="transition-delay:.2s">
+            The Finderfox breezes through neon twilight with adjustable pancake logic orfox breezes through neon
+          </p>
+        </div>
+
+        <!-- Four staggered cards -->
+        <div class="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4 pb-16 z-10">
+
+          <div class="reveal relative bg-gradient-to-b from-blue-950/70 via-blue-950/25 to-neutral-950 border border-white/10 rounded-[24px] p-6 min-h-[320px] flex flex-col justify-between hover:border-white/20 transition-all duration-300 group cursor-pointer lg:translate-y-0" style="transition-delay:.1s">
+            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Strategy</div>
+            <div class="mt-auto">
+              <div class="flex items-start gap-2.5 mb-2">
+                <span class="w-2 h-2 rounded-full bg-[#ff3b30] mt-2 flex-shrink-0"></span>
+                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug">Bold strategies that shape identities</h3>
+              </div>
+              <p class="text-white/50 text-xs leading-relaxed pl-4">We build concepts that define premium brands and leave lasting impressions.</p>
+            </div>
+          </div>
+
+          <div class="reveal relative bg-gradient-to-b from-blue-950/70 via-blue-950/25 to-neutral-950 border border-white/10 rounded-[24px] p-6 min-h-[320px] flex flex-col justify-between hover:border-white/20 transition-all duration-300 group cursor-pointer lg:translate-y-8" style="transition-delay:.2s">
+            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Growth</div>
+            <div class="mt-auto">
+              <div class="flex items-start gap-2.5 mb-2">
+                <span class="w-2 h-2 rounded-full bg-[#ff3b30] mt-2 flex-shrink-0"></span>
+                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug">Driving measurable growth through impact</h3>
+              </div>
+              <p class="text-white/50 text-xs leading-relaxed pl-4">Focused on reach, engagement, and real sales — not empty noise.</p>
+            </div>
+          </div>
+
+          <div class="reveal relative bg-gradient-to-b from-blue-950/70 via-blue-950/25 to-neutral-950 border border-white/10 rounded-[24px] p-6 min-h-[320px] flex flex-col justify-between hover:border-white/20 transition-all duration-300 group cursor-pointer lg:translate-y-2" style="transition-delay:.3s">
+            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Creative</div>
+            <div class="mt-auto">
+              <div class="flex items-start gap-2.5 mb-2">
+                <span class="w-2 h-2 rounded-full bg-[#ff3b30] mt-2 flex-shrink-0"></span>
+                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug">Creative processes with rapid delivery</h3>
+              </div>
+              <p class="text-white/50 text-xs leading-relaxed pl-4">Ideas turn into results fast, without losing quality or relevance.</p>
+            </div>
+          </div>
+
+          <div class="reveal relative bg-gradient-to-b from-blue-950/70 via-blue-950/25 to-neutral-950 border border-white/10 rounded-[24px] p-6 min-h-[320px] flex flex-col justify-between hover:border-white/20 transition-all duration-300 group cursor-pointer lg:translate-y-10" style="transition-delay:.4s">
+            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Powerful</div>
+            <div class="mt-auto">
+              <div class="flex items-start gap-2.5 mb-2">
+                <span class="w-2 h-2 rounded-full bg-[#ff3b30] mt-2 flex-shrink-0"></span>
+                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug">A dedicated team behind success</h3>
+              </div>
+              <p class="text-white/50 text-xs leading-relaxed pl-4">Our experts guide every step, from launch to scale.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. TESTIMONIAL & IMPACT CASE STUDY -->
+    <section class="relative w-full border-t border-white/5">
+      <div class="py-24 px-4 sm:px-8 md:px-16 lg:px-20 max-w-7xl mx-auto flex flex-col items-center justify-start relative overflow-hidden">
+
+        <div class="glow-pulse absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[130px] pointer-events-none"></div>
+
+        <div class="relative z-10 w-full text-center max-w-5xl mx-auto mb-16">
+          <span class="reveal tag-glide text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">Case study</span>
+          <h2 data-split class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] leading-[1.2] tracking-tight font-medium text-white max-w-3xl mx-auto select-none">
+            Proven Impact <span class="font-serif italic font-light text-blue-400">with</span> Global Leaders
+          </h2>
+        </div>
+
+        <div class="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch z-10">
+
+          <!-- Portrait card -->
+          <div class="reveal from-left md:col-span-4 bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[28px] overflow-hidden p-3 flex flex-col items-center justify-center group hover:border-white/15 transition-all duration-300 shadow-xl" style="transition-delay:.1s">
+            <div class="relative w-full aspect-[4/5] rounded-[20px] overflow-hidden bg-neutral-900">
+              <img src="assets/images/Everest.png" alt="Mount Everest" referrerpolicy="no-referrer"
+                   class="w-full h-full object-cover group-hover:scale-[1.03] transition-all duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60"></div>
+              <div class="absolute bottom-4 left-4">
+                <p class="text-white font-bold text-base tracking-wide">Bernice Tay</p>
+                <p class="text-white/60 text-xs font-medium tracking-wide">Startup Co-founder</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quote & stats card -->
+          <div class="reveal from-right md:col-span-8 relative bg-gradient-to-br from-blue-950/40 via-neutral-950 to-neutral-950/80 backdrop-blur-md border border-white/10 rounded-[28px] p-8 sm:p-10 flex flex-col justify-between hover:border-white/15 transition-all duration-300 shadow-2xl overflow-hidden group" style="transition-delay:.2s">
+            <div class="absolute right-0 bottom-0 w-[240px] h-[240px] bg-blue-600/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-blue-600/15 transition-colors duration-500"></div>
+
+            <div class="mb-10 text-left">
+              <span class="text-[64px] leading-none font-serif text-blue-500/30 block -mb-6 select-none">&ldquo;</span>
+              <p class="text-white text-lg sm:text-xl md:text-[22px] leading-[1.4] tracking-wide font-medium uppercase text-left select-none mb-4">
+                I wasted my time with other agencies, but with Omni, we increased our revenue and got more students with low CPL and high ROAS
+              </p>
+              <span class="text-[64px] leading-none font-serif text-blue-500/30 block text-right -mt-4 select-none">&rdquo;</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-8 mb-8">
+              <div class="text-left">
+                <p data-count="25" data-prefix="$15-" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-400 tracking-tight select-none">$15-25</p>
+                <p class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">CPL</p>
+              </div>
+              <div class="text-left border-l border-white/10 pl-4 sm:pl-6">
+                <p data-count="263" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight select-none">263</p>
+                <p class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">STUDENTS ACQUIRED</p>
+              </div>
+              <div class="text-left border-l border-white/10 pl-4 sm:pl-6">
+                <p data-count="11.11" data-decimals="2" data-suffix="X" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-400 tracking-tight select-none">11.11X</p>
+                <p class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">ROAS ACHIEVED</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between border-t border-white/5 pt-4 mt-auto">
+              <div class="text-left">
+                <p class="text-white font-bold tracking-widest uppercase text-xs sm:text-sm">— BERNICE TAY</p>
+                <p class="text-neutral-400 text-[10px] sm:text-xs font-medium tracking-wider uppercase mt-0.5">STARTUP CO-FOUNDER</p>
+              </div>
+              <div class="px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-[9px] sm:text-[10px] text-blue-400 tracking-widest uppercase font-semibold">Verified Partner</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. CAPABILITIES: FOUR CARDS WITH OPEN CENTER -->
+    <section class="relative w-full border-t border-white/5">
+      <div class="py-24 px-4 sm:px-8 md:px-16 lg:px-20 max-w-7xl mx-auto flex flex-col items-center justify-start relative overflow-hidden">
+
+        <div class="relative z-10 w-full text-center max-w-3xl mx-auto mb-16">
+          <span class="reveal tag-glide text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">Capabilities</span>
+          <h2 data-split class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] leading-[1.2] tracking-tight font-medium text-white max-w-3xl mx-auto select-none mb-4">
+            Unparalleled Adventures <span class="font-serif italic font-light text-blue-400">for the</span> Bold
+          </h2>
+          <p class="reveal text-white/40 text-xs sm:text-[13px] leading-relaxed max-w-md mx-auto select-none font-normal" style="transition-delay:.2s">
+            We provide unmatched services to turn your Himalayan dreams and high-altitude projects into reality.
+          </p>
+        </div>
+
+        <div class="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch z-10">
+
+          <!-- Left column -->
+          <div class="flex flex-col gap-6 justify-between">
+            <div class="reveal from-left relative bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[24px] p-6 flex flex-col items-start hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300 group cursor-pointer h-full" style="transition-delay:.1s">
+              <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="float-badge"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88"/></svg>
+              </div>
+              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">Tailor-Made Expeditions</h3>
+              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Fully customized itineraries designed to match your physical preparation, preferred timelines, and personal mountain goals.</p>
+            </div>
+
+            <div class="reveal from-left relative bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[24px] p-6 flex flex-col items-start hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300 group cursor-pointer h-full mt-6 lg:mt-0" style="transition-delay:.25s">
+              <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="float-badge" style="animation-delay:.6s"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">Elite Sherpa Guidance</h3>
+              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Climb with multiple-time Everest summiteers who provide unmatched high-altitude guidance, safety, and deep cultural wisdom.</p>
+            </div>
+          </div>
+
+          <!-- Center column: open space — the scroll animation shows through here -->
+          <div class="w-full min-h-[120px] sm:min-h-[220px] lg:min-h-full flex items-center justify-center pointer-events-none"></div>
+
+          <!-- Right column -->
+          <div class="flex flex-col gap-6 justify-between">
+            <div class="reveal from-right relative bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[24px] p-6 flex flex-col items-start hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300 group cursor-pointer h-full" style="transition-delay:.1s">
+              <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="float-badge" style="animation-delay:.3s"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              </div>
+              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">Global Connectivity</h3>
+              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Stay seamlessly connected with advanced satellite terminals at basecamp and real-time tracking during active summit climbs.</p>
+            </div>
+
+            <div class="reveal from-right relative bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[24px] p-6 flex flex-col items-start hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300 group cursor-pointer h-full mt-6 lg:mt-0" style="transition-delay:.25s">
+              <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="float-badge" style="animation-delay:.9s"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+              </div>
+              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">Media &amp; Production</h3>
+              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Document your monumental triumph with state-of-the-art cinematic equipment captured by professional mountain videographers.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="w-full text-center text-neutral-600 text-[11px] py-8 select-none border-t border-white/5 bg-[#030303]">
+      <p>© 2026 EVEREST Travel &amp; Architecture Group. Built in high contrast black theme.</p>
+    </footer>
+
+  </main>
+
+<script>
+(() => {
+  /* ============================================================
+     1. SCROLL-DRIVEN FRAME ANIMATION
+     The canvas is fixed behind the content; scroll progress over
+     the FULL page maps to the 300 frames, so the animation keeps
+     playing while every section scrolls into view.
+     ============================================================ */
+  const FRAME_COUNT = 340;
+  const FRAME_PATH = i =>
+    `frames/frame-${String(i + 1).padStart(3, "0")}.jpg`;
+
+  const canvas = document.getElementById("frames");
+  const ctx = canvas.getContext("2d");
+
+  const images = new Array(FRAME_COUNT);
+
+  let currentFrame = 0;
+  let targetFrame = 0;
+
+  function resize() {
+    canvas.width = window.innerWidth * window.devicePixelRatio;
+    canvas.height = window.innerHeight * window.devicePixelRatio;
+    // Resizing resets context state — re-enable high quality scaling
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    render(currentFrame);
+  }
+
+  // Draw image with "cover" fit
+  function render(frameIndex) {
+    const img = images[Math.round(frameIndex)];
+    if (!img || !img.complete || !img.naturalWidth) return;
+    const cw = canvas.width, ch = canvas.height;
+    const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+    const w = img.naturalWidth * scale;
+    const h = img.naturalHeight * scale;
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+  }
+
+  // Preload all frames
+  for (let i = 0; i < FRAME_COUNT; i++) {
+    const img = new Image();
+    img.src = FRAME_PATH(i);
+    if (i === 0) img.onload = () => resize();
+    images[i] = img;
+  }
+
+  function onScroll() {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0
+      ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1)
+      : 0;
+    targetFrame = progress * (FRAME_COUNT - 1);
+  }
+
+  function tick() {
+    // Ease current frame toward target for smoothness
+    currentFrame += (targetFrame - currentFrame) * 0.12;
+    if (Math.abs(targetFrame - currentFrame) < 0.01) currentFrame = targetFrame;
+    render(currentFrame);
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", resize);
+  resize();
+  onScroll();
+  requestAnimationFrame(tick);
+
+  /* ============================================================
+     2. SCROLL-REVEAL for sections (replays on every re-entry)
+     ============================================================ */
+
+  // Split marked headlines into per-word spans with staggered delays.
+  // Walks text nodes only, so nested markup (pills, badges) is preserved.
+  document.querySelectorAll("[data-split]").forEach(el => {
+    const walk = node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (!node.textContent.trim()) return;
+        const frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (!part.trim()) { frag.appendChild(document.createTextNode(part)); return; }
+          const s = document.createElement("span");
+          s.className = "word";
+          s.textContent = part;
+          frag.appendChild(s);
+        });
+        node.parentNode.replaceChild(frag, node);
+      } else if (node.nodeType === Node.ELEMENT_NODE && !(node instanceof SVGElement)) {
+        [...node.childNodes].forEach(walk);
+      }
+    };
+    walk(el);
+    el.querySelectorAll(".word").forEach((w, i) =>
+      w.style.setProperty("--wd", (0.08 + i * 0.05).toFixed(2) + "s"));
+    el.classList.add("reveal-words");
+  });
+
+  // Auto-stagger: children of [data-stagger] get incremental transition delays
+  document.querySelectorAll("[data-stagger]").forEach(parent => {
+    const step = parseFloat(parent.dataset.stagger) || 0.12;
+    parent.querySelectorAll(".reveal").forEach((el, i) => {
+      el.style.transitionDelay = (i * step).toFixed(2) + "s";
+    });
+  });
+
+  // Count-up animation for stat numbers
+  function runCount(el) {
+    if (el.dataset.counting) return;
+    el.dataset.counting = "1";
+    const end = parseFloat(el.dataset.count);
+    const decimals = +(el.dataset.decimals || 0);
+    const prefix = el.dataset.prefix || "";
+    const suffix = el.dataset.suffix || "";
+    const dur = 1500;
+    const t0 = performance.now();
+    function step(t) {
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      el.textContent = prefix + (end * eased).toFixed(decimals) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+      else delete el.dataset.counting;
+    }
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      entry.target.classList.toggle("visible", entry.isIntersecting);
+      if (entry.isIntersecting) {
+        if (entry.target.hasAttribute("data-count")) runCount(entry.target);
+        entry.target.querySelectorAll("[data-count]").forEach(runCount);
+      }
+    }
+  }, { threshold: 0.15, rootMargin: "0px 0px -5% 0px" });
+
+  document.querySelectorAll(".reveal, .reveal-words").forEach(el => observer.observe(el));
+
+  /* ============================================================
+     3. NAV PILL active state
+     ============================================================ */
+  const navButtons = document.querySelectorAll("#main-nav [data-nav]");
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      navButtons.forEach(b => {
+        b.classList.remove("bg-white", "text-black", "font-semibold", "shadow-md");
+        b.classList.add("text-white/60", "hover:text-white");
+      });
+      btn.classList.add("bg-white", "text-black", "font-semibold", "shadow-md");
+      btn.classList.remove("text-white/60", "hover:text-white");
+    });
+  });
+})();
+</script>
+</body>
+</html>
