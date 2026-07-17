@@ -13,7 +13,7 @@
 
 <br/>
 
-<img src="landingpage_travelsite.png" alt="EVEREST landing page — hero view through an airplane window at golden hour" width="100%" style="border-radius: 12px;" />
+<img src="landingpage_travelsite.webp" alt="EVEREST landing page — hero view through an airplane window at golden hour" width="100%" style="border-radius: 12px;" />
 
 <br/>
 <br/>
@@ -99,10 +99,11 @@ currentFrame += (targetFrame - currentFrame) * 0.12
 ctx.drawImage(frames[Math.round(currentFrame)], ...)
 ```
 
-The frames were extracted from the source video with **FFmpeg** at near-lossless quality:
+The frames were extracted from the source video with **FFmpeg** and encoded as
+**WebP** — half the size of JPEG at the same visual quality:
 
 ```bash
-ffmpeg -i source.mp4 -qscale:v 2 frames/frame-%03d.jpg
+ffmpeg -i source.mp4 -c:v libwebp -quality 82 frames/frame-%03d.webp
 ```
 
 All entrance animations run on a single `IntersectionObserver` — elements toggle
@@ -117,14 +118,14 @@ cleanly with Tailwind's transform utilities.
 
 ```
 travel_site/
-├── index.html                  # The entire site — markup, styles & logic
-├── frames/                     # 340 HD frames (1920×1080, scroll-scrubbed)
-│   ├── frame-001.jpg
+├── index.html                   # The entire site — markup, styles & logic
+├── frames/                      # 340 HD WebP frames (1920×1080, scroll-scrubbed)
+│   ├── frame-001.webp
 │   ├── ...
-│   └── frame-340.jpg
+│   └── frame-340.webp
 ├── assets/
-│   └── images/                 # Section imagery (Everest, testimonial)
-└── landingpage_travelsite.png  # The screenshot above
+│   └── images/                  # Section imagery (WebP)
+└── landingpage_travelsite.webp  # The screenshot above
 ```
 
 ---
