@@ -9,7 +9,7 @@
 <!-- Fonts: DM Sans + Playfair Display (same as banner design) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Noto+Sans+JP:wght@400;500;700;800&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -18,8 +18,8 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['"DM Sans"', 'sans-serif'],
-          serif: ['"Playfair Display"', 'serif'],
+          sans: ['"DM Sans"', '"Noto Sans JP"', 'sans-serif'],
+          serif: ['"Playfair Display"', '"Noto Serif JP"', 'serif'],
         },
       },
     },
@@ -183,18 +183,22 @@
         <!-- Centered nav pill (desktop) -->
         <div class="hidden md:flex justify-center items-center">
           <nav id="main-nav" class="flex items-center bg-black/35 backdrop-blur-md border border-white/15 rounded-full p-1.5 whitespace-nowrap shadow-lg shadow-black/20">
-            <a href="index.html" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap bg-white text-black font-semibold shadow-md">Home</a>
-            <a href="tours.html" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Tours</a>
-            <a href="expeditions.html" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Expeditions</a>
-            <a href="about.html" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">About us</a>
-            <a href="contact.html" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Contact</a>
+            <a href="index.html" data-i18n="nav.home" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap bg-white text-black font-semibold shadow-md">Home</a>
+            <a href="tours.html" data-i18n="nav.tours" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Tours</a>
+            <a href="expeditions.html" data-i18n="nav.expeditions" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Expeditions</a>
+            <a href="about.html" data-i18n="nav.about" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">About us</a>
+            <a href="contact.html" data-i18n="nav.contact" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Contact</a>
           </nav>
         </div>
 
-        <!-- Menu button (mobile only — desktop uses the pill above) -->
-        <div class="flex items-center justify-end md:hidden">
-          <button id="menu-btn" aria-label="Open menu" class="bg-black/35 backdrop-blur-md hover:bg-black/50 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-4 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-lg shadow-black/20">
-            <span>Menu</span>
+        <!-- Right controls: language toggle (desktop) + menu button (mobile) -->
+        <div class="flex items-center justify-end gap-2.5">
+          <div class="lang-toggle hidden md:flex items-center gap-1 bg-black/35 backdrop-blur-md border border-white/15 rounded-full p-1 shadow-lg shadow-black/20">
+            <button data-set-lang="en" class="lang-btn px-2.5 py-1 rounded-full text-[12px] font-semibold transition-colors">EN</button>
+            <button data-set-lang="ja" class="lang-btn px-2.5 py-1 rounded-full text-[12px] font-semibold transition-colors">日本語</button>
+          </div>
+          <button id="menu-btn" aria-label="Open menu" class="md:hidden bg-black/35 backdrop-blur-md hover:bg-black/50 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-4 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-lg shadow-black/20">
+            <span data-i18n="ui.menu">Menu</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
           </button>
         </div>
@@ -206,24 +210,23 @@
 
       <!-- Hero title & CTA — centered in the space between header and cards -->
       <div class="flex-1 flex flex-col items-center justify-center text-center max-w-4xl mx-auto w-full">
-        <h1 data-split class="text-[30px] sm:text-[42px] md:text-[54px] font-medium tracking-tight leading-[1.15] text-white select-none max-w-2xl">
+        <h1 data-split data-i18n-html="hero.title" class="text-[30px] sm:text-[42px] md:text-[54px] font-medium tracking-tight leading-[1.15] text-white select-none max-w-2xl">
           <span class="block">Experience the</span>
           <span class="block">Majesty of</span>
           <span class="block">Mount Everest</span>
         </h1>
 
-        <p class="reveal text-[13px] sm:text-[14px] md:text-[15px] text-white/70 font-normal max-w-[26rem] mt-3 md:mt-4 leading-relaxed select-none" style="transition-delay:.3s">
+        <p data-i18n="hero.sub" class="reveal text-[13px] sm:text-[14px] md:text-[15px] text-white/70 font-normal max-w-[26rem] mt-3 md:mt-4 leading-relaxed select-none" style="transition-delay:.3s">
           Explore breathtaking Himalayan landscapes, iconic trekking trails, and authentic Sherpa culture. Let us guide you on an unforgettable Everest adventure.
         </p>
 
         <div class="reveal from-scale mt-4 md:mt-5" style="transition-delay:.45s">
-          <button class="group bg-white text-black pl-7 pr-2 py-2 rounded-full font-semibold text-sm sm:text-base flex items-center gap-4 hover:bg-neutral-100 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 cursor-pointer shadow-lg shadow-white/5"
-                  onclick="alert('Exploring Mount Everest adventure tours!')">
-            <span class="text-black font-medium tracking-wide">Explore Tours</span>
+          <a href="tours.html" class="group bg-white text-black pl-7 pr-2 py-2 rounded-full font-semibold text-sm sm:text-base flex items-center gap-4 hover:bg-neutral-100 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 cursor-pointer shadow-lg shadow-white/5">
+            <span data-i18n="hero.cta" class="text-black font-medium tracking-wide">Explore Tours</span>
             <span class="bg-[#0051e0] group-hover:bg-[#0041b3] text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 shadow-md">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
             </span>
-          </button>
+          </a>
         </div>
       </div>
 
@@ -234,8 +237,8 @@
           <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="float-badge"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
           </div>
-          <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">25+ Curated Adventure Tours</h3>
-          <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Choose from trekking, helicopter tours, cultural experiences, and tailor-made Himalayan expeditions.</p>
+          <h3 data-i18n="hero.card1.title" class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">25+ Curated Adventure Tours</h3>
+          <p data-i18n="hero.card1.body" class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Choose from trekking, helicopter tours, cultural experiences, and tailor-made Himalayan expeditions.</p>
         </div>
 
         <!-- Right card -->
@@ -243,8 +246,8 @@
           <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="float-badge" style="animation-delay:.8s"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
           </div>
-          <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">100% Local Expert Guides</h3>
-          <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Explore with experienced, licensed guides who know every trail, viewpoint, and hidden gem of the Everest region.</p>
+          <h3 data-i18n="hero.card2.title" class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">100% Local Expert Guides</h3>
+          <p data-i18n="hero.card2.body" class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Explore with experienced, licensed guides who know every trail, viewpoint, and hidden gem of the Everest region.</p>
         </div>
       </div>
     </section>
@@ -257,13 +260,13 @@
         <div class="glow-pulse absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[500px] h-[200px] sm:h-[300px] bg-gradient-to-r from-red-950/15 via-neutral-900/10 to-blue-950/15 rounded-full blur-[100px] pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
-          <h2 data-split class="text-3xl sm:text-4xl md:text-[54px] leading-[1.1] tracking-tight text-white mb-5 select-none font-normal">
+          <h2 data-split data-i18n-html="sec2.title" class="text-3xl sm:text-4xl md:text-[54px] leading-[1.1] tracking-tight text-white mb-5 select-none font-normal">
             <span class="font-serif italic font-light block mb-1 text-white/95">Proudly Recognized</span>
             <span class="block font-medium text-white/95">by Nepal's Leading</span>
             <span class="block font-medium text-white/95">Mountain Institutions</span>
           </h2>
 
-          <p class="reveal text-white/60 text-[13px] sm:text-[14px] leading-relaxed max-w-md select-none font-normal mb-12" style="transition-delay:.15s">
+          <p data-i18n="sec2.sub" class="reveal text-white/60 text-[13px] sm:text-[14px] leading-relaxed max-w-md select-none font-normal mb-12" style="transition-delay:.15s">
             We work hand-in-hand with Nepal's tourism and mountaineering institutions to keep every Himalayan journey safe, licensed, and authentic
           </p>
         </div>
@@ -390,9 +393,9 @@
         <div class="glow-pulse absolute -top-12 left-1/4 w-[350px] h-[350px] bg-red-900/10 rounded-full blur-[120px] pointer-events-none"></div>
 
         <div class="relative z-10 w-full text-center max-w-5xl mx-auto mb-16">
-          <span class="reveal tag-glide text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">About Everest</span>
+          <span data-i18n="sec3.tag" class="reveal tag-glide text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">About Everest</span>
 
-          <h2 data-split class="text-[26px] leading-[1.3] sm:text-4xl md:text-5xl lg:text-[50px] sm:leading-[1.2] tracking-tight font-medium text-white max-w-4xl mx-auto mb-6 select-none">
+          <h2 data-split data-i18n-html="sec3.title" class="text-[26px] leading-[1.3] sm:text-4xl md:text-5xl lg:text-[50px] sm:leading-[1.2] tracking-tight font-medium text-white max-w-4xl mx-auto mb-6 select-none">
             <span class="inline-flex flex-wrap justify-center items-center gap-2.5">
               <span class="diamond-spin w-4 h-4 sm:w-5 sm:h-5 bg-[#ff3b30] rounded-sm transform rotate-45 flex-shrink-0"></span>
               <span>EVEREST — is a Himalayan</span>
@@ -409,7 +412,7 @@
             and decades of expertise
           </h2>
 
-          <p class="reveal text-white/40 text-xs sm:text-[13px] leading-relaxed max-w-md mx-auto select-none font-normal" style="transition-delay:.2s">
+          <p data-i18n="sec3.sub" class="reveal text-white/40 text-xs sm:text-[13px] leading-relaxed max-w-md mx-auto select-none font-normal" style="transition-delay:.2s">
             Founded in Kathmandu and rooted in the Khumbu valley, our team has guided trekkers and climbers through the Himalaya for more than two decades
           </p>
         </div>
@@ -418,7 +421,7 @@
         <div class="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4 pb-16 z-10">
 
           <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 min-h-[240px] sm:min-h-[320px] flex flex-col justify-between hover:border-white/20 transition-all duration-300 group cursor-pointer lg:translate-y-0" style="transition-delay:.1s">
-            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Expeditions</div>
+            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-i18n="sec3.c1.tag">Expeditions</div>
 
             <span class="absolute top-4 right-6 text-5xl sm:text-6xl font-extrabold font-mono text-white/[0.07] select-none pointer-events-none">01</span>
 
@@ -432,14 +435,14 @@
             <div class="mt-auto">
               <div class="flex items-start gap-2.5 mb-2">
                 <span class="w-2 h-2 rounded-full bg-[#ff3b30] mt-2 flex-shrink-0"></span>
-                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug">Proven routes to the roof of the world</h3>
+                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug" data-i18n="sec3.c1.title">Proven routes to the roof of the world</h3>
               </div>
-              <p class="text-white/50 text-xs leading-relaxed pl-4">From Base Camp treks to 8,000-metre expeditions, every itinerary is planned by veteran summiteers.</p>
+              <p class="text-white/50 text-xs leading-relaxed pl-4" data-i18n="sec3.c1.body">From Base Camp treks to 8,000-metre expeditions, every itinerary is planned by veteran summiteers.</p>
             </div>
           </div>
 
           <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 min-h-[240px] sm:min-h-[320px] flex flex-col justify-between hover:border-white/20 transition-all duration-300 group cursor-pointer lg:translate-y-8" style="transition-delay:.2s">
-            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Safety</div>
+            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-i18n="sec3.c2.tag">Safety</div>
 
             <span class="absolute top-4 right-6 text-5xl sm:text-6xl font-extrabold font-mono text-white/[0.07] select-none pointer-events-none">02</span>
 
@@ -453,14 +456,14 @@
             <div class="mt-auto">
               <div class="flex items-start gap-2.5 mb-2">
                 <span class="w-2 h-2 rounded-full bg-[#ff3b30] mt-2 flex-shrink-0"></span>
-                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug">Safety measured at every altitude</h3>
+                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug" data-i18n="sec3.c2.title">Safety measured at every altitude</h3>
               </div>
-              <p class="text-white/50 text-xs leading-relaxed pl-4">Daily health checks, oxygen logistics, and helicopter rescue coordination on every climb.</p>
+              <p class="text-white/50 text-xs leading-relaxed pl-4" data-i18n="sec3.c2.body">Daily health checks, oxygen logistics, and helicopter rescue coordination on every climb.</p>
             </div>
           </div>
 
           <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 min-h-[240px] sm:min-h-[320px] flex flex-col justify-between hover:border-white/20 transition-all duration-300 group cursor-pointer lg:translate-y-2" style="transition-delay:.3s">
-            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Culture</div>
+            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-i18n="sec3.c3.tag">Culture</div>
 
             <span class="absolute top-4 right-6 text-5xl sm:text-6xl font-extrabold font-mono text-white/[0.07] select-none pointer-events-none">03</span>
 
@@ -474,14 +477,14 @@
             <div class="mt-auto">
               <div class="flex items-start gap-2.5 mb-2">
                 <span class="w-2 h-2 rounded-full bg-[#ff3b30] mt-2 flex-shrink-0"></span>
-                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug">Living Sherpa culture, shared as family</h3>
+                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug" data-i18n="sec3.c3.title">Living Sherpa culture, shared as family</h3>
               </div>
-              <p class="text-white/50 text-xs leading-relaxed pl-4">Tengboche Monastery, teahouse evenings, and Khumbu villages — welcomed as a guest, not a tourist.</p>
+              <p class="text-white/50 text-xs leading-relaxed pl-4" data-i18n="sec3.c3.body">Tengboche Monastery, teahouse evenings, and Khumbu villages — welcomed as a guest, not a tourist.</p>
             </div>
           </div>
 
           <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 min-h-[240px] sm:min-h-[320px] flex flex-col justify-between hover:border-white/20 transition-all duration-300 group cursor-pointer lg:translate-y-10" style="transition-delay:.4s">
-            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Our Team</div>
+            <div class="self-start px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-i18n="sec3.c4.tag">Our Team</div>
 
             <span class="absolute top-4 right-6 text-5xl sm:text-6xl font-extrabold font-mono text-white/[0.07] select-none pointer-events-none">04</span>
 
@@ -495,9 +498,9 @@
             <div class="mt-auto">
               <div class="flex items-start gap-2.5 mb-2">
                 <span class="w-2 h-2 rounded-full bg-[#ff3b30] mt-2 flex-shrink-0"></span>
-                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug">A Sherpa team behind every summit</h3>
+                <h3 class="text-[18px] sm:text-[19px] font-semibold text-white tracking-wide leading-snug" data-i18n="sec3.c4.title">A Sherpa team behind every summit</h3>
               </div>
-              <p class="text-white/50 text-xs leading-relaxed pl-4">Our guides have stood on Sagarmatha's summit more than 100 times combined.</p>
+              <p class="text-white/50 text-xs leading-relaxed pl-4" data-i18n="sec3.c4.body">Our guides have stood on Sagarmatha's summit more than 100 times combined.</p>
             </div>
           </div>
 
@@ -512,8 +515,8 @@
         <div class="glow-pulse absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[130px] pointer-events-none"></div>
 
         <div class="relative z-10 w-full text-center max-w-5xl mx-auto mb-16">
-          <span class="reveal tag-glide text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">Our legacy</span>
-          <h2 data-split class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] leading-[1.2] tracking-tight font-medium text-white max-w-3xl mx-auto select-none">
+          <span data-i18n="sec4.tag" class="reveal tag-glide text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">Our legacy</span>
+          <h2 data-split data-i18n-html="sec4.title" class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] leading-[1.2] tracking-tight font-medium text-white max-w-3xl mx-auto select-none">
             Two Decades <span class="font-serif italic font-light text-blue-400">on the</span> Roof of the World
           </h2>
         </div>
@@ -528,7 +531,7 @@
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60"></div>
               <div class="absolute bottom-4 left-4">
                 <p class="text-white font-bold text-base tracking-wide">Sagarmatha · 8,849 m</p>
-                <p class="text-white/60 text-xs font-medium tracking-wide">Khumbu Region, Nepal</p>
+                <p data-i18n="sec4.caption2" class="text-white/60 text-xs font-medium tracking-wide">Khumbu Region, Nepal</p>
               </div>
             </div>
           </div>
@@ -539,7 +542,7 @@
 
             <div class="mb-10 text-left">
               <span class="text-[64px] leading-none font-serif text-blue-500/30 block -mb-6 select-none">&ldquo;</span>
-              <p class="text-white text-[15px] sm:text-xl md:text-[22px] leading-[1.5] sm:leading-[1.4] tracking-wide font-medium uppercase text-left select-none mb-4">
+              <p data-i18n="sec4.quote" class="text-white text-[15px] sm:text-xl md:text-[22px] leading-[1.5] sm:leading-[1.4] tracking-wide font-medium uppercase text-left select-none mb-4">
                 I was born in the shadow of Sagarmatha. For twenty years our Sherpa team has guided every climber home safely — that is our only measure of success
               </p>
               <span class="text-[64px] leading-none font-serif text-blue-500/30 block text-right -mt-4 select-none">&rdquo;</span>
@@ -548,24 +551,24 @@
             <div class="grid grid-cols-3 gap-2 sm:gap-4 border-t border-white/10 pt-6 sm:pt-8 mb-8">
               <div class="text-left">
                 <p data-count="8849" data-suffix=" m" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-400 tracking-tight select-none">8,849 m</p>
-                <p class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">SUMMIT ELEVATION</p>
+                <p data-i18n="sec4.stat1" class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">SUMMIT ELEVATION</p>
               </div>
               <div class="text-left border-l border-white/10 pl-2.5 sm:pl-6">
                 <p data-count="300" data-suffix="+" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight select-none">300+</p>
-                <p class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">EXPEDITIONS COMPLETED</p>
+                <p data-i18n="sec4.stat2" class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">EXPEDITIONS COMPLETED</p>
               </div>
               <div class="text-left border-l border-white/10 pl-2.5 sm:pl-6">
                 <p data-count="20" data-suffix="+" class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-400 tracking-tight select-none">20+</p>
-                <p class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">YEARS IN THE KHUMBU</p>
+                <p data-i18n="sec4.stat3" class="text-neutral-400 text-[10px] sm:text-xs font-bold tracking-widest uppercase mt-1">YEARS IN THE KHUMBU</p>
               </div>
             </div>
 
             <div class="flex items-center justify-between border-t border-white/5 pt-4 mt-auto">
               <div class="text-left">
                 <p class="text-white font-bold tracking-widest uppercase text-xs sm:text-sm">— PEMBA SHERPA</p>
-                <p class="text-neutral-400 text-[10px] sm:text-xs font-medium tracking-wider uppercase mt-0.5">FOUNDER &amp; LEAD EXPEDITION GUIDE</p>
+                <p data-i18n="sec4.role" class="text-neutral-400 text-[10px] sm:text-xs font-medium tracking-wider uppercase mt-0.5">FOUNDER &amp; LEAD EXPEDITION GUIDE</p>
               </div>
-              <div class="px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-[9px] sm:text-[10px] text-blue-400 tracking-widest uppercase font-semibold">NMA Certified</div>
+              <div class="px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-[9px] sm:text-[10px] text-blue-400 tracking-widest uppercase font-semibold" data-i18n="sec4.badge">NMA Certified</div>
             </div>
           </div>
 
@@ -578,11 +581,11 @@
       <div class="py-16 sm:py-24 px-4 sm:px-8 md:px-16 lg:px-20 max-w-7xl mx-auto flex flex-col items-center justify-start relative overflow-hidden">
 
         <div class="relative z-10 w-full text-center max-w-3xl mx-auto mb-16">
-          <span class="reveal tag-glide text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">Capabilities</span>
-          <h2 data-split class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] leading-[1.2] tracking-tight font-medium text-white max-w-3xl mx-auto select-none mb-4">
+          <span data-i18n="sec5.tag" class="reveal tag-glide text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block">Capabilities</span>
+          <h2 data-split data-i18n-html="sec5.title" class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] leading-[1.2] tracking-tight font-medium text-white max-w-3xl mx-auto select-none mb-4">
             Unparalleled Adventures <span class="font-serif italic font-light text-blue-400">for the</span> Bold
           </h2>
-          <p class="reveal text-white/40 text-xs sm:text-[13px] leading-relaxed max-w-md mx-auto select-none font-normal" style="transition-delay:.2s">
+          <p data-i18n="sec5.sub" class="reveal text-white/40 text-xs sm:text-[13px] leading-relaxed max-w-md mx-auto select-none font-normal" style="transition-delay:.2s">
             We provide unmatched services to turn your Himalayan dreams and summit ambitions into reality.
           </p>
         </div>
@@ -595,16 +598,16 @@
               <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="float-badge"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88"/></svg>
               </div>
-              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">Tailor-Made Expeditions</h3>
-              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Fully customized itineraries designed to match your physical preparation, preferred timelines, and personal mountain goals.</p>
+              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none" data-i18n="sec5.c1.title">Tailor-Made Expeditions</h3>
+              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none" data-i18n="sec5.c1.body">Fully customized itineraries designed to match your physical preparation, preferred timelines, and personal mountain goals.</p>
             </div>
 
             <div class="reveal from-left relative bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[24px] p-6 flex flex-col items-start hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300 group cursor-pointer h-full mt-6 lg:mt-0" style="transition-delay:.25s">
               <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="float-badge" style="animation-delay:.6s"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
               </div>
-              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">Elite Sherpa Guidance</h3>
-              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Climb with multiple-time Everest summiteers who provide unmatched high-altitude guidance, safety, and deep cultural wisdom.</p>
+              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none" data-i18n="sec5.c2.title">Elite Sherpa Guidance</h3>
+              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none" data-i18n="sec5.c2.body">Climb with multiple-time Everest summiteers who provide unmatched high-altitude guidance, safety, and deep cultural wisdom.</p>
             </div>
           </div>
 
@@ -617,16 +620,16 @@
               <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="float-badge" style="animation-delay:.3s"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               </div>
-              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">Global Connectivity</h3>
-              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Stay seamlessly connected with advanced satellite terminals at basecamp and real-time tracking during active summit climbs.</p>
+              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none" data-i18n="sec5.c3.title">Global Connectivity</h3>
+              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none" data-i18n="sec5.c3.body">Stay seamlessly connected with advanced satellite terminals at basecamp and real-time tracking during active summit climbs.</p>
             </div>
 
             <div class="reveal from-right relative bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[24px] p-6 flex flex-col items-start hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300 group cursor-pointer h-full mt-6 lg:mt-0" style="transition-delay:.25s">
               <div class="bg-white text-black rounded-xl w-10 h-10 flex items-center justify-center mb-4 shadow-md transition-transform group-hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="float-badge" style="animation-delay:.9s"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
               </div>
-              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none">Media &amp; Production</h3>
-              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none">Document your monumental triumph with state-of-the-art cinematic equipment captured by professional mountain videographers.</p>
+              <h3 class="text-lg md:text-[19px] font-semibold text-white tracking-wide mb-2 select-none" data-i18n="sec5.c4.title">Media &amp; Production</h3>
+              <p class="text-white/60 text-xs sm:text-[13px] leading-relaxed select-none" data-i18n="sec5.c4.body">Document your monumental triumph with state-of-the-art cinematic equipment captured by professional mountain videographers.</p>
             </div>
           </div>
 
@@ -636,7 +639,7 @@
 
     <!-- FOOTER -->
     <footer id="contact" class="w-full text-center text-neutral-600 text-[11px] py-8 select-none border-t border-white/5 bg-[#030303]">
-      <p>© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.</p>
+      <p data-i18n="footer">© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.</p>
     </footer>
 
   </main>
@@ -648,7 +651,7 @@
     <div class="flex items-center justify-between px-5 sm:px-10 py-6 max-w-7xl mx-auto w-full">
       <span class="text-white font-extrabold text-xl md:text-2xl tracking-[0.08em] select-none">EVEREST</span>
       <button id="menu-close" aria-label="Close menu" class="bg-white/5 hover:bg-white/15 active:scale-95 text-white/90 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer">
-        <span>Close</span>
+        <span data-i18n="ui.close">Close</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
@@ -657,28 +660,36 @@
     <nav class="flex-1 flex flex-col items-center justify-center gap-1 sm:gap-2 px-6">
       <a href="index.html" class="menu-link group flex items-baseline gap-4 text-white hover:text-white text-3xl sm:text-5xl font-medium tracking-tight cursor-pointer" style="--i:0">
         <span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">01</span>
-        <span class="group-hover:translate-x-2 transition-transform duration-300 underline decoration-[#ff3b30] decoration-2 underline-offset-8">Home</span>
+        <span data-i18n="nav.home" class="group-hover:translate-x-2 transition-transform duration-300 underline decoration-[#ff3b30] decoration-2 underline-offset-8">Home</span>
       </a>
       <a href="tours.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight cursor-pointer" style="--i:1">
         <span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">02</span>
-        <span class="group-hover:translate-x-2 transition-transform duration-300">Tours</span>
+        <span data-i18n="nav.tours" class="group-hover:translate-x-2 transition-transform duration-300">Tours</span>
       </a>
       <a href="expeditions.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight cursor-pointer" style="--i:2">
         <span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">03</span>
-        <span class="group-hover:translate-x-2 transition-transform duration-300">Expeditions</span>
+        <span data-i18n="nav.expeditions" class="group-hover:translate-x-2 transition-transform duration-300">Expeditions</span>
       </a>
       <a href="about.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight cursor-pointer" style="--i:3">
         <span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">04</span>
-        <span class="group-hover:translate-x-2 transition-transform duration-300">About us</span>
+        <span data-i18n="nav.about" class="group-hover:translate-x-2 transition-transform duration-300">About us</span>
       </a>
       <a href="contact.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight cursor-pointer" style="--i:4">
         <span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">05</span>
-        <span class="group-hover:translate-x-2 transition-transform duration-300">Contact</span>
+        <span data-i18n="nav.contact" class="group-hover:translate-x-2 transition-transform duration-300">Contact</span>
       </a>
     </nav>
 
+    <!-- Language toggle (mobile) -->
+    <div class="flex justify-center pb-6">
+      <div class="lang-toggle flex items-center gap-1 bg-white/5 border border-white/15 rounded-full p-1">
+        <button data-set-lang="en" class="lang-btn px-5 py-1.5 rounded-full text-sm font-semibold transition-colors">EN</button>
+        <button data-set-lang="ja" class="lang-btn px-5 py-1.5 rounded-full text-sm font-semibold transition-colors">日本語</button>
+      </div>
+    </div>
+
     <!-- Overlay footer -->
-    <div class="menu-link pb-8 sm:pb-10 text-center text-white/40 text-[11px] sm:text-xs tracking-wider select-none" style="--i:5">
+    <div data-i18n-html="menu.address" class="menu-link pb-8 sm:pb-10 text-center text-white/40 text-[11px] sm:text-xs tracking-wider select-none" style="--i:5">
       Thamel, Kathmandu, Nepal &nbsp;·&nbsp; namaste@everest-expeditions.com.np
     </div>
 
@@ -762,9 +773,135 @@
      2. SCROLL-REVEAL for sections (replays on every re-entry)
      ============================================================ */
 
-  // Split marked headlines into per-word spans with staggered delays.
-  // Walks text nodes only, so nested markup (pills, badges) is preserved.
-  document.querySelectorAll("[data-split]").forEach(el => {
+  // ---------- Internationalization (English / 日本語) ----------
+  // All Japanese lives here so it can be reviewed in one place.
+  const I18N = {
+    "nav.home":        { en: "Home",        ja: "ホーム" },
+    "nav.tours":       { en: "Tours",       ja: "ツアー" },
+    "nav.expeditions": { en: "Expeditions", ja: "遠征" },
+    "nav.about":       { en: "About us",    ja: "私たちについて" },
+    "nav.contact":     { en: "Contact",     ja: "お問い合わせ" },
+    "ui.menu":  { en: "Menu",  ja: "メニュー" },
+    "ui.close": { en: "Close", ja: "閉じる" },
+
+    "hero.title": {
+      en: '<span class="block">Experience the</span><span class="block">Majesty of</span><span class="block">Mount Everest</span>',
+      ja: '<span class="block">エベレストの</span><span class="block">雄大な世界を</span><span class="block">体験する</span>'
+    },
+    "hero.sub": {
+      en: "Explore breathtaking Himalayan landscapes, iconic trekking trails, and authentic Sherpa culture. Let us guide you on an unforgettable Everest adventure.",
+      ja: "息をのむようなヒマラヤの絶景、名高いトレッキングルート、そして本物のシェルパ文化。忘れられないエベレストの旅へ、私たちがご案内します。"
+    },
+    "hero.cta": { en: "Explore Tours", ja: "ツアーを見る" },
+    "hero.card1.title": { en: "25+ Curated Adventure Tours", ja: "厳選された25以上の冒険ツアー" },
+    "hero.card1.body": {
+      en: "Choose from trekking, helicopter tours, cultural experiences, and tailor-made Himalayan expeditions.",
+      ja: "トレッキング、ヘリコプターツアー、文化体験、そしてオーダーメイドのヒマラヤ遠征からお選びいただけます。"
+    },
+    "hero.card2.title": { en: "100% Local Expert Guides", ja: "100%地元の熟練ガイド" },
+    "hero.card2.body": {
+      en: "Explore with experienced, licensed guides who know every trail, viewpoint, and hidden gem of the Everest region.",
+      ja: "エベレスト地域のあらゆるトレイル、絶景スポット、隠れた名所を知り尽くした、経験豊富な公認ガイドがご案内します。"
+    },
+
+    "sec2.title": {
+      en: '<span class="font-serif italic font-light block mb-1 text-white/95">Proudly Recognized</span><span class="block font-medium text-white/95">by Nepal\'s Leading</span><span class="block font-medium text-white/95">Mountain Institutions</span>',
+      ja: '<span class="font-serif italic font-light block mb-1 text-white/95">ネパールを代表する</span><span class="block font-medium text-white/95">山岳機関から</span><span class="block font-medium text-white/95">信頼されています</span>'
+    },
+    "sec2.sub": {
+      en: "We work hand-in-hand with Nepal's tourism and mountaineering institutions to keep every Himalayan journey safe, licensed, and authentic",
+      ja: "ネパールの観光・登山機関と緊密に連携し、すべてのヒマラヤの旅を安全で正規の、本物の体験にしています。"
+    },
+
+    "sec3.tag": { en: "About Everest", ja: "エベレストについて" },
+    "sec3.title": {
+      en: '<span class="inline-flex flex-wrap justify-center items-center gap-2.5"><span class="diamond-spin w-4 h-4 sm:w-5 sm:h-5 bg-[#ff3b30] rounded-sm transform rotate-45 flex-shrink-0"></span><span>EVEREST — is a Himalayan</span></span> expedition company of certified <span class="relative inline-flex items-center px-4 py-1 mx-1 rounded-full bg-gradient-to-r from-red-600 via-orange-600 to-red-700 text-white shadow-md border border-white/15 align-middle transform -translate-y-1"><span class="w-1.5 h-1.5 bg-white rounded-full animate-ping mr-1.5"></span><span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase font-mono">Sherpas</span></span> <span class="text-white/40">that delivers the wonder of the world\'s highest peaks with</span> <span class="relative inline-flex items-center px-4 py-1 mx-1 rounded-full bg-gradient-to-r from-orange-500 via-red-600 to-orange-700 text-white shadow-md border border-white/15 align-middle transform -translate-y-1"><span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase font-mono">Passion</span></span> and decades of expertise',
+      ja: '<span class="inline-flex flex-wrap justify-center items-center gap-2.5"><span class="diamond-spin w-4 h-4 sm:w-5 sm:h-5 bg-[#ff3b30] rounded-sm transform rotate-45 flex-shrink-0"></span><span>EVEREST は、認定</span></span><span class="relative inline-flex items-center px-4 py-1 mx-1 rounded-full bg-gradient-to-r from-red-600 via-orange-600 to-red-700 text-white shadow-md border border-white/15 align-middle transform -translate-y-1"><span class="w-1.5 h-1.5 bg-white rounded-full animate-ping mr-1.5"></span><span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase font-mono">シェルパ</span></span>によるヒマラヤ遠征会社です。<span class="text-white/40">世界最高峰の感動を、</span><span class="relative inline-flex items-center px-4 py-1 mx-1 rounded-full bg-gradient-to-r from-orange-500 via-red-600 to-orange-700 text-white shadow-md border border-white/15 align-middle transform -translate-y-1"><span class="text-[11px] sm:text-xs font-bold tracking-wider uppercase font-mono">情熱</span></span>と数十年の経験でお届けします。'
+    },
+    "sec3.sub": {
+      en: "Founded in Kathmandu and rooted in the Khumbu valley, our team has guided trekkers and climbers through the Himalaya for more than two decades",
+      ja: "カトマンズで創業し、クンブ谷に根ざした私たちのチームは、20年以上にわたり、トレッカーと登山家をヒマラヤへと導いてきました。"
+    },
+    "sec3.c1.tag":   { en: "Expeditions", ja: "遠征" },
+    "sec3.c1.title": { en: "Proven routes to the roof of the world", ja: "世界の屋根への実績あるルート" },
+    "sec3.c1.body":  { en: "From Base Camp treks to 8,000-metre expeditions, every itinerary is planned by veteran summiteers.", ja: "ベースキャンプトレックから8,000メートル峰の遠征まで、すべての行程をベテラン登頂者が計画します。" },
+    "sec3.c2.tag":   { en: "Safety", ja: "安全" },
+    "sec3.c2.title": { en: "Safety measured at every altitude", ja: "すべての標高で徹底した安全管理" },
+    "sec3.c2.body":  { en: "Daily health checks, oxygen logistics, and helicopter rescue coordination on every climb.", ja: "毎日の健康チェック、酸素の管理、そしてすべての登山におけるヘリコプター救助の手配を行います。" },
+    "sec3.c3.tag":   { en: "Culture", ja: "文化" },
+    "sec3.c3.title": { en: "Living Sherpa culture, shared as family", ja: "家族として分かち合う、生きたシェルパ文化" },
+    "sec3.c3.body":  { en: "Tengboche Monastery, teahouse evenings, and Khumbu villages — welcomed as a guest, not a tourist.", ja: "タンボチェ僧院、茶屋で過ごす夜、そしてクンブの村々——観光客としてではなく、客人としてお迎えします。" },
+    "sec3.c4.tag":   { en: "Our Team", ja: "私たちのチーム" },
+    "sec3.c4.title": { en: "A Sherpa team behind every summit", ja: "すべての登頂を支えるシェルパチーム" },
+    "sec3.c4.body":  { en: "Our guides have stood on Sagarmatha's summit more than 100 times combined.", ja: "私たちのガイドは、これまでに合計100回以上サガルマータの頂に立ってきました。" },
+
+    "sec4.tag": { en: "Our legacy", ja: "私たちの歩み" },
+    "sec4.title": {
+      en: 'Two Decades <span class="font-serif italic font-light text-blue-400">on the</span> Roof of the World',
+      ja: '世界の屋根で <span class="font-serif italic font-light text-blue-400">刻んだ</span> 20年の歩み'
+    },
+    "sec4.quote": {
+      en: "I was born in the shadow of Sagarmatha. For twenty years our Sherpa team has guided every climber home safely — that is our only measure of success",
+      ja: "私はサガルマータの麓で生まれました。20年間、私たちのシェルパチームはすべての登山者を無事に送り届けてきました——それこそが、私たちの唯一の成功の証です。"
+    },
+    "sec4.stat1": { en: "SUMMIT ELEVATION", ja: "標高（山頂）" },
+    "sec4.stat2": { en: "EXPEDITIONS COMPLETED", ja: "達成した遠征" },
+    "sec4.stat3": { en: "YEARS IN THE KHUMBU", ja: "クンブでの活動年数" },
+    "sec4.caption2": { en: "Khumbu Region, Nepal", ja: "ネパール・クンブ地方" },
+    "sec4.role": { en: "FOUNDER & LEAD EXPEDITION GUIDE", ja: "創業者 兼 主任遠征ガイド" },
+    "sec4.badge": { en: "NMA Certified", ja: "NMA認定" },
+
+    "sec5.tag": { en: "Capabilities", ja: "サービス内容" },
+    "sec5.title": {
+      en: 'Unparalleled Adventures <span class="font-serif italic font-light text-blue-400">for the</span> Bold',
+      ja: '勇敢なる者へ、<span class="font-serif italic font-light text-blue-400">比類なき</span> 冒険を'
+    },
+    "sec5.sub": {
+      en: "We provide unmatched services to turn your Himalayan dreams and summit ambitions into reality.",
+      ja: "ヒマラヤの夢と登頂への志を現実に変える、比類なきサービスを提供します。"
+    },
+    "sec5.c1.title": { en: "Tailor-Made Expeditions", ja: "オーダーメイドの遠征" },
+    "sec5.c1.body":  { en: "Fully customized itineraries designed to match your physical preparation, preferred timelines, and personal mountain goals.", ja: "あなたの体力づくり、ご希望の日程、そして個人的な登山目標に合わせて、完全にカスタマイズした行程をご用意します。" },
+    "sec5.c2.title": { en: "Elite Sherpa Guidance", ja: "一流シェルパによる案内" },
+    "sec5.c2.body":  { en: "Climb with multiple-time Everest summiteers who provide unmatched high-altitude guidance, safety, and deep cultural wisdom.", ja: "エベレストに複数回登頂したガイドと共に登り、比類なき高所での案内、安全、そして深い文化的知見を得られます。" },
+    "sec5.c3.title": { en: "Global Connectivity", ja: "グローバルな通信環境" },
+    "sec5.c3.body":  { en: "Stay seamlessly connected with advanced satellite terminals at basecamp and real-time tracking during active summit climbs.", ja: "ベースキャンプの高度な衛星端末と、登頂中のリアルタイム位置追跡で、常にシームレスに繋がります。" },
+    "sec5.c4.title": { en: "Media & Production", ja: "撮影・制作" },
+    "sec5.c4.body":  { en: "Document your monumental triumph with state-of-the-art cinematic equipment captured by professional mountain videographers.", ja: "プロの山岳映像作家が最先端の撮影機材で、あなたの記念すべき偉業を記録します。" },
+
+    "footer": {
+      en: "© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.",
+      ja: "© 2026 EVEREST Expeditions · ネパール、カトマンズ、タメル。シェルパが導き、サガルマータに導かれて。"
+    },
+    "menu.address": {
+      en: "Thamel, Kathmandu, Nepal &nbsp;·&nbsp; namaste@everest-expeditions.com.np",
+      ja: "ネパール、カトマンズ、タメル &nbsp;·&nbsp; namaste@everest-expeditions.com.np"
+    }
+  };
+
+  function applyI18n(l) {
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const t = I18N[el.getAttribute("data-i18n")];
+      if (t && t[l] != null) el.textContent = t[l];
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(el => {
+      const t = I18N[el.getAttribute("data-i18n-html")];
+      if (t && t[l] != null) el.innerHTML = t[l];
+    });
+  }
+
+  function updateLangButtons(l) {
+    document.querySelectorAll(".lang-btn").forEach(b => {
+      const on = b.getAttribute("data-set-lang") === l;
+      b.classList.toggle("bg-white", on);
+      b.classList.toggle("text-black", on);
+      b.classList.toggle("text-white/55", !on);
+    });
+  }
+
+  // Split a headline into per-word spans (blur-rise reveal). Re-runnable
+  // because innerHTML is reset by applyI18n before each re-split.
+  function splitEl(el) {
     const walk = node => {
       if (node.nodeType === Node.TEXT_NODE) {
         if (!node.textContent.trim()) return;
@@ -786,7 +923,23 @@
     el.querySelectorAll(".word").forEach((w, i) =>
       w.style.setProperty("--wd", (0.08 + i * 0.05).toFixed(2) + "s"));
     el.classList.add("reveal-words");
-  });
+  }
+
+  let currentLang = localStorage.getItem("site-lang");
+  if (!currentLang) currentLang = (navigator.language || "").toLowerCase().startsWith("ja") ? "ja" : "en";
+
+  function setLang(l, isSwitch) {
+    currentLang = l;
+    document.documentElement.setAttribute("lang", l);
+    localStorage.setItem("site-lang", l);
+    applyI18n(l);
+    updateLangButtons(l);
+    document.querySelectorAll("[data-split]").forEach(splitEl);
+    if (isSwitch) document.querySelectorAll(".reveal, .reveal-words").forEach(el => el.classList.add("visible"));
+  }
+
+  // Apply stored/detected language and build word-splits before observing
+  setLang(currentLang, false);
 
   // Auto-stagger: children of [data-stagger] get incremental transition delays
   document.querySelectorAll("[data-stagger]").forEach(parent => {
@@ -851,6 +1004,10 @@
   menuClose.addEventListener("click", () => setMenu(false));
   overlay.addEventListener("click", e => { if (e.target === overlay) setMenu(false); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+
+  // Language switcher buttons (header + overlay stay in sync)
+  document.querySelectorAll(".lang-btn").forEach(b =>
+    b.addEventListener("click", () => setLang(b.getAttribute("data-set-lang"), true)));
 
   /* Fade the sticky header backdrop in once the user scrolls past the top */
   const header = document.querySelector(".site-header");
