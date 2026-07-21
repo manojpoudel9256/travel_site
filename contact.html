@@ -142,7 +142,10 @@
 
       <!-- RIGHT: enquiry form -->
       <div class="lg:col-span-7">
-        <form id="enquiry-form" class="reveal relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[28px] p-6 sm:p-8" novalidate>
+        <!-- ⬇️ SETUP: replace YOUR_FORM_ID below with your Formspree form ID
+             (sign up free at formspree.io, create a form, copy the ID from
+             its endpoint https://formspree.io/f/XXXXXXXX). One string, that's it. -->
+        <form id="enquiry-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="reveal relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[28px] p-6 sm:p-8" novalidate>
           <div class="glow-pulse absolute right-0 top-0 w-[240px] h-[240px] bg-blue-600/10 rounded-full blur-[90px] pointer-events-none"></div>
 
           <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -182,6 +185,10 @@
               <textarea name="message" rows="4" placeholder="Experience level, fitness, altitude history, questions..." class="field w-full rounded-xl px-4 py-3 text-sm text-white resize-none"></textarea>
             </div>
           </div>
+
+          <!-- Formspree: email subject line + honeypot spam trap (hidden from humans) -->
+          <input type="hidden" name="_subject" value="New trip enquiry — EVEREST Expeditions website" />
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
           <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
             <p id="form-note" class="text-white/40 text-xs order-2 sm:order-1">We reply within one working day. No spam, ever.</p>
@@ -270,21 +277,64 @@
   overlay.addEventListener("click", e => { if (e.target === overlay) setMenu(false); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
 
-  // Enquiry form — client-side only (no backend wired yet)
+  // Enquiry form — submits to Formspree over AJAX so the visitor stays
+  // on the page and sees an inline thank-you instead of a redirect.
   const form = document.getElementById("enquiry-form");
   const note = document.getElementById("form-note");
-  form.addEventListener("submit", e => {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const submitLabel = submitBtn.querySelector("span");
+  const setNote = (msg, tone) => {
+    note.textContent = msg;
+    const color = tone === "error" ? "text-[#ff3b30]" : tone === "success" ? "text-emerald-400" : "text-white/40";
+    note.className = color + " text-xs order-2 sm:order-1";
+  };
+
+  form.addEventListener("submit", async e => {
     e.preventDefault();
+
     const name = form.name.value.trim();
     const email = form.email.value.trim();
-    if (!name || !email || !email.includes("@")) {
-      note.textContent = "Please enter your name and a valid email.";
-      note.className = "text-[#ff3b30] text-xs order-2 sm:order-1";
+    if (!name || !email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      setNote("Please enter your name and a valid email.", "error");
       return;
     }
-    note.textContent = "Thank you, " + name.split(" ")[0] + "! A guide will reply within one working day.";
-    note.className = "text-emerald-400 text-xs order-2 sm:order-1";
-    form.reset();
+
+    // Guard against the un-configured placeholder endpoint
+    if (form.action.includes("YOUR_FORM_ID")) {
+      setNote("Form not connected yet — add your Formspree ID to enable sending.", "error");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add("opacity-60", "pointer-events-none");
+    submitLabel.textContent = "Sending…";
+    setNote("Sending your enquiry…", "neutral");
+
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        form.reset();
+        setNote("Thank you, " + name.split(" ")[0] + "! A guide will reply within one working day.", "success");
+        submitLabel.textContent = "Sent ✓";
+      } else {
+        const data = await res.json().catch(() => ({}));
+        const msg = data.errors ? data.errors.map(x => x.message).join(", ")
+                                : "Something went wrong. Please email us directly.";
+        setNote(msg, "error");
+        submitLabel.textContent = "Send enquiry";
+        submitBtn.disabled = false;
+        submitBtn.classList.remove("opacity-60", "pointer-events-none");
+      }
+    } catch {
+      setNote("Network error — please check your connection or email us directly.", "error");
+      submitLabel.textContent = "Send enquiry";
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("opacity-60", "pointer-events-none");
+    }
   });
 })();
 </script>
