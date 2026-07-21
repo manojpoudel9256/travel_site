@@ -123,9 +123,25 @@
   .scrollbar-none::-webkit-scrollbar { display: none; }
   .scrollbar-none { scrollbar-width: none; }
 
-  /* Hero fills the small viewport (svh) so iOS/Android address bars
-     don't push the cards off screen; vh fallback for older browsers */
-  .hero-vh { min-height: 100vh; min-height: 100svh; }
+  /* Hero fills the viewport minus the sticky header height, so the
+     header + hero together sit in one screen. svh handles mobile bars. */
+  .hero-vh { min-height: calc(100vh - 4.75rem); min-height: calc(100svh - 4.75rem); }
+
+  /* Persistent sticky top bar. Transparent over the hero, then fades in a
+     dark blur once the user scrolls so the nav stays readable over frames. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    transition: background-color .35s ease, backdrop-filter .35s ease, border-color .35s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .site-header.scrolled {
+    background-color: rgba(5, 5, 5, .72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: rgba(255, 255, 255, .06);
+  }
 
   /* Fullscreen menu overlay */
   #menu-overlay.open { opacity: 1; pointer-events: auto; }
@@ -156,19 +172,17 @@
     <!-- Top readability strip: darkens only the nav area, fades out quickly -->
     <div class="absolute top-0 left-0 right-0 h-36 bg-gradient-to-b from-black/70 via-black/25 to-transparent pointer-events-none"></div>
 
-    <!-- 1. HERO: EVEREST BANNER -->
-    <section id="home" class="hero-vh relative w-full flex flex-col justify-start py-5 sm:py-8 px-4 sm:px-8 md:px-16 lg:px-20 max-w-7xl mx-auto">
-
-      <!-- Header navigation -->
-      <header class="reveal from-top w-full flex flex-row justify-between items-center md:grid md:grid-cols-3 md:items-center pb-4">
+    <!-- Persistent sticky header (stays visible while scrolling) -->
+    <header class="site-header">
+      <div class="w-full max-w-7xl mx-auto flex flex-row justify-between items-center md:grid md:grid-cols-3 md:items-center px-4 sm:px-8 md:px-16 lg:px-20 py-3.5">
         <!-- Logo -->
-        <div class="flex items-center justify-start">
+        <a href="index.html" class="flex items-center justify-start">
           <span class="text-white font-extrabold text-xl md:text-2xl tracking-[0.08em] select-none [text-shadow:0_2px_10px_rgba(0,0,0,.7)]">EVEREST</span>
-        </div>
+        </a>
 
-        <!-- Centered nav pill -->
+        <!-- Centered nav pill (desktop) -->
         <div class="hidden md:flex justify-center items-center">
-          <nav id="main-nav" class="flex items-center bg-black/35 backdrop-blur-md border border-white/15 rounded-full p-1.5 flex-nowrap whitespace-nowrap overflow-x-auto scrollbar-none shadow-lg shadow-black/20">
+          <nav id="main-nav" class="flex items-center bg-black/35 backdrop-blur-md border border-white/15 rounded-full p-1.5 whitespace-nowrap shadow-lg shadow-black/20">
             <a href="index.html" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap bg-white text-black font-semibold shadow-md">Home</a>
             <a href="tours.html" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Tours</a>
             <a href="expeditions.html" class="nav-item px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 cursor-pointer whitespace-nowrap text-white/60 hover:text-white">Expeditions</a>
@@ -177,14 +191,18 @@
           </nav>
         </div>
 
-        <!-- Open menu button -->
-        <div class="flex items-center justify-end">
-          <button id="menu-btn" aria-label="Open menu" class="bg-black/35 backdrop-blur-md hover:bg-black/50 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-lg shadow-black/20">
-            <span>Open menu</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <!-- Menu button (mobile only — desktop uses the pill above) -->
+        <div class="flex items-center justify-end md:hidden">
+          <button id="menu-btn" aria-label="Open menu" class="bg-black/35 backdrop-blur-md hover:bg-black/50 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-4 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-lg shadow-black/20">
+            <span>Menu</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
           </button>
         </div>
-      </header>
+      </div>
+    </header>
+
+    <!-- 1. HERO: EVEREST BANNER -->
+    <section id="home" class="hero-vh relative w-full flex flex-col justify-start py-5 sm:py-8 px-4 sm:px-8 md:px-16 lg:px-20 max-w-7xl mx-auto">
 
       <!-- Hero title & CTA — centered in the space between header and cards -->
       <div class="flex-1 flex flex-col items-center justify-center text-center max-w-4xl mx-auto w-full">
@@ -833,6 +851,14 @@
   menuClose.addEventListener("click", () => setMenu(false));
   overlay.addEventListener("click", e => { if (e.target === overlay) setMenu(false); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+
+  /* Fade the sticky header backdrop in once the user scrolls past the top */
+  const header = document.querySelector(".site-header");
+  if (header) {
+    const onHeaderScroll = () => header.classList.toggle("scrolled", window.scrollY > 20);
+    window.addEventListener("scroll", onHeaderScroll, { passive: true });
+    onHeaderScroll();
+  }
 })();
 </script>
 </body>
