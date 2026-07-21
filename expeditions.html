@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#050505" />
+<title>Expeditions — EVEREST Expeditions Nepal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"DM Sans"', 'sans-serif'],
+          serif: ['"Playfair Display"', 'serif'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: #050505; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @keyframes glowpulse { 0%,100% { opacity:.45; } 50% { opacity:1; } }
+  .glow-pulse { animation: glowpulse 6s ease-in-out infinite; }
+  @keyframes floaty { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-5px); } }
+  .float-badge { animation: floaty 3.5s ease-in-out infinite; }
+
+  #menu-overlay.open { opacity: 1; pointer-events: auto; }
+  .menu-link {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), color .3s;
+  }
+  #menu-overlay.open .menu-link { opacity: 1; transform: none; transition-delay: calc(var(--i,0) * 70ms + 120ms); }
+</style>
+</head>
+
+<body class="bg-[#050505] text-white font-sans antialiased selection:bg-neutral-800 selection:text-white">
+
+  <!-- HEADER -->
+  <header class="w-full max-w-7xl mx-auto flex items-center justify-between md:grid md:grid-cols-3 px-4 sm:px-8 md:px-16 lg:px-20 pt-6 pb-4">
+    <a href="index.html" class="text-white font-extrabold text-xl md:text-2xl tracking-[0.08em] select-none justify-self-start">EVEREST</a>
+    <div class="hidden md:flex justify-center">
+      <nav class="flex items-center bg-white/[0.04] border border-white/10 rounded-full p-1.5 whitespace-nowrap">
+        <a href="index.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">Home</a>
+        <a href="tours.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">Tours</a>
+        <a href="expeditions.html" class="px-5 py-1.5 rounded-full text-[13px] font-semibold tracking-wide bg-white text-black shadow-md">Expeditions</a>
+        <a href="about.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">About us</a>
+        <a href="contact.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">Contact</a>
+      </nav>
+    </div>
+    <div class="flex justify-end">
+      <button id="menu-btn" aria-label="Open menu" class="bg-white/[0.04] hover:bg-white/10 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap">
+        <span>Open menu</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="relative max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-20 pt-12 sm:pt-20 pb-8 text-center overflow-hidden">
+    <div class="glow-pulse absolute -top-10 left-1/2 -translate-x-1/2 w-[400px] h-[260px] bg-red-900/15 rounded-full blur-[110px] pointer-events-none"></div>
+    <span class="reveal text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block relative z-10">Expeditions</span>
+    <h1 class="reveal text-4xl sm:text-5xl md:text-[58px] leading-[1.12] tracking-tight font-medium relative z-10" style="transition-delay:.1s">
+      Climb the World's <span class="font-serif italic font-light text-blue-400">Highest</span> Peaks
+    </h1>
+    <p class="reveal text-white/50 text-[13px] sm:text-[14px] leading-relaxed max-w-lg mx-auto mt-5 relative z-10" style="transition-delay:.2s">
+      From your first 6,000-metre summit to the top of Sagarmatha itself — full-service expeditions with 1:1 climbing Sherpa support, oxygen logistics, and two decades of high-altitude judgment.
+    </p>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-8 pb-14">
+    <div class="reveal grid grid-cols-2 sm:grid-cols-4 gap-y-6 bg-white/[0.03] border border-white/10 rounded-2xl py-6 px-4 text-center">
+      <div><p class="text-2xl sm:text-3xl font-extrabold text-blue-400 tracking-tight">8,849 m</p><p class="text-white/40 text-[9px] sm:text-[10px] uppercase tracking-widest mt-1">Everest Summit</p></div>
+      <div><p class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">300+</p><p class="text-white/40 text-[9px] sm:text-[10px] uppercase tracking-widest mt-1">Expeditions Led</p></div>
+      <div><p class="text-2xl sm:text-3xl font-extrabold text-blue-400 tracking-tight">100+</p><p class="text-white/40 text-[9px] sm:text-[10px] uppercase tracking-widest mt-1">Team Summits</p></div>
+      <div><p class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">1:1</p><p class="text-white/40 text-[9px] sm:text-[10px] uppercase tracking-widest mt-1">Sherpa Ratio</p></div>
+    </div>
+  </section>
+
+  <!-- EXPEDITION CARDS -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-8 pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Everest -->
+      <div class="reveal relative overflow-hidden bg-gradient-to-b from-red-900/30 via-neutral-950/60 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-3 py-1 rounded-full border border-[#ff3b30]/30 bg-[#ff3b30]/10 text-[10px] text-[#ff3b30] tracking-wider font-semibold uppercase font-mono">8000ers</span>
+          <span class="text-[10px] text-white/40 font-bold uppercase tracking-wider">Apr–May</span>
+        </div>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-1">Everest — South Col</h3>
+        <p class="text-blue-400 font-extrabold text-sm mb-3">8,849 m · World's Highest</p>
+        <p class="text-white/50 text-xs leading-relaxed mb-5">The classic 1953 route through the Khumbu Icefall, Western Cwm, and South Col. Full board at Base Camp, 1:1 Sherpa, and unlimited oxygen above Camp 3.</p>
+        <div class="mt-auto flex items-center justify-between border-t border-white/10 pt-4">
+          <span class="text-white/40 text-[10px] uppercase tracking-wider">≈ 60 days</span>
+          <span class="text-white font-bold text-sm">from $45,000</span>
+        </div>
+      </div>
+
+      <!-- Lhotse -->
+      <div class="reveal relative overflow-hidden bg-gradient-to-b from-red-900/30 via-neutral-950/60 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300" style="transition-delay:.08s">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-3 py-1 rounded-full border border-[#ff3b30]/30 bg-[#ff3b30]/10 text-[10px] text-[#ff3b30] tracking-wider font-semibold uppercase font-mono">8000ers</span>
+          <span class="text-[10px] text-white/40 font-bold uppercase tracking-wider">Apr–May</span>
+        </div>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-1">Lhotse</h3>
+        <p class="text-blue-400 font-extrabold text-sm mb-3">8,516 m · 4th Highest</p>
+        <p class="text-white/50 text-xs leading-relaxed mb-5">Everest's neighbor shares the same route to Camp 3, then breaks for the dramatic Lhotse Couloir — a quieter path into the death zone.</p>
+        <div class="mt-auto flex items-center justify-between border-t border-white/10 pt-4">
+          <span class="text-white/40 text-[10px] uppercase tracking-wider">≈ 45 days</span>
+          <span class="text-white font-bold text-sm">from $27,500</span>
+        </div>
+      </div>
+
+      <!-- Ama Dablam -->
+      <div class="reveal relative overflow-hidden bg-gradient-to-b from-red-900/30 via-neutral-950/60 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300" style="transition-delay:.16s">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Technical</span>
+          <span class="text-[10px] text-white/40 font-bold uppercase tracking-wider">Oct–Nov</span>
+        </div>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-1">Ama Dablam</h3>
+        <p class="text-blue-400 font-extrabold text-sm mb-3">6,812 m · The Matterhorn of the Himalaya</p>
+        <p class="text-white/50 text-xs leading-relaxed mb-5">The most beautiful peak in the Khumbu — sustained rock and ice climbing on the Southwest Ridge for experienced alpinists.</p>
+        <div class="mt-auto flex items-center justify-between border-t border-white/10 pt-4">
+          <span class="text-white/40 text-[10px] uppercase tracking-wider">≈ 30 days</span>
+          <span class="text-white font-bold text-sm">from $9,500</span>
+        </div>
+      </div>
+
+      <!-- Mera Peak -->
+      <div class="reveal relative overflow-hidden bg-gradient-to-b from-red-900/30 via-neutral-950/60 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">First 6000er</span>
+          <span class="text-[10px] text-white/40 font-bold uppercase tracking-wider">Apr–May · Oct–Nov</span>
+        </div>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-1">Mera Peak</h3>
+        <p class="text-blue-400 font-extrabold text-sm mb-3">6,476 m · Nepal's Highest Trekking Peak</p>
+        <p class="text-white/50 text-xs leading-relaxed mb-5">A non-technical glacier climb with a summit view of five 8,000-metre giants — Everest, Lhotse, Cho Oyu, Makalu, and Kanchenjunga.</p>
+        <div class="mt-auto flex items-center justify-between border-t border-white/10 pt-4">
+          <span class="text-white/40 text-[10px] uppercase tracking-wider">≈ 18 days</span>
+          <span class="text-white font-bold text-sm">from $3,200</span>
+        </div>
+      </div>
+
+      <!-- Island Peak -->
+      <div class="reveal relative overflow-hidden bg-gradient-to-b from-red-900/30 via-neutral-950/60 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300" style="transition-delay:.08s">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Classic</span>
+          <span class="text-[10px] text-white/40 font-bold uppercase tracking-wider">Apr–May · Oct–Nov</span>
+        </div>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-1">Island Peak (Imja Tse)</h3>
+        <p class="text-blue-400 font-extrabold text-sm mb-3">6,189 m · The Stepping Stone</p>
+        <p class="text-white/50 text-xs leading-relaxed mb-5">The Khumbu's favorite first summit — a headwall of fixed ropes above Imja Glacier, often combined with the Base Camp trek.</p>
+        <div class="mt-auto flex items-center justify-between border-t border-white/10 pt-4">
+          <span class="text-white/40 text-[10px] uppercase tracking-wider">≈ 16 days</span>
+          <span class="text-white font-bold text-sm">from $2,900</span>
+        </div>
+      </div>
+
+      <!-- Lobuche East -->
+      <div class="reveal relative overflow-hidden bg-gradient-to-b from-red-900/30 via-neutral-950/60 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300" style="transition-delay:.16s">
+        <div class="flex items-center justify-between mb-5">
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Skills Builder</span>
+          <span class="text-[10px] text-white/40 font-bold uppercase tracking-wider">Apr–May · Oct–Nov</span>
+        </div>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-1">Lobuche East</h3>
+        <p class="text-blue-400 font-extrabold text-sm mb-3">6,119 m · The Ridgeline Classic</p>
+        <p class="text-white/50 text-xs leading-relaxed mb-5">A striking summit ridge above the Khumbu Glacier with front-row views of Everest — our training peak of choice before the 8,000ers.</p>
+        <div class="mt-auto flex items-center justify-between border-t border-white/10 pt-4">
+          <span class="text-white/40 text-[10px] uppercase tracking-wider">≈ 15 days</span>
+          <span class="text-white font-bold text-sm">from $2,700</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SAFETY & LOGISTICS -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-8 pb-20">
+    <div class="text-center mb-10">
+      <span class="reveal text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block">How we keep you alive up there</span>
+      <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight" style="transition-delay:.1s">Safety Is <span class="font-serif italic font-light text-blue-400">the</span> Summit</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6">
+        <h3 class="text-white font-semibold text-[15px] mb-2">Oxygen &amp; Medical</h3>
+        <p class="text-white/50 text-xs leading-relaxed">Supplemental oxygen above 7,500 m with generous reserves, daily SpO2 monitoring, and a stocked medical tent at Base Camp with physician support during the season.</p>
+      </div>
+      <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6" style="transition-delay:.08s">
+        <h3 class="text-white font-semibold text-[15px] mb-2">Weather Windows</h3>
+        <p class="text-white/50 text-xs leading-relaxed">Twice-daily forecasts from dedicated meteorologists. We summit when the mountain allows — never to keep a schedule.</p>
+      </div>
+      <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6" style="transition-delay:.16s">
+        <h3 class="text-white font-semibold text-[15px] mb-2">1:1 Climbing Sherpa</h3>
+        <p class="text-white/50 text-xs leading-relaxed">On Everest every client climbs with a personal Sherpa — most with multiple summits — from Base Camp to the top and back.</p>
+      </div>
+      <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6" style="transition-delay:.24s">
+        <h3 class="text-white font-semibold text-[15px] mb-2">Evacuation Ready</h3>
+        <p class="text-white/50 text-xs leading-relaxed">Helicopter evacuation protocols rehearsed every season. We require insurance covering rescue to 6,000 m — and we help you arrange it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-8 pb-24 text-center">
+    <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight mb-6">Your summit year <span class="font-serif italic font-light text-blue-400">starts</span> with a conversation</h2>
+    <a href="contact.html" class="reveal inline-flex group bg-white text-black pl-7 pr-2 py-2 rounded-full font-semibold text-sm items-center gap-4 hover:bg-neutral-100 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-white/5" style="transition-delay:.1s">
+      <span class="font-medium tracking-wide">Talk to a Guide</span>
+      <span class="bg-[#0051e0] group-hover:bg-[#0041b3] text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+      </span>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="w-full text-center text-neutral-600 text-[11px] py-8 select-none border-t border-white/5 bg-[#030303]">
+    <p>© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.</p>
+  </footer>
+
+  <!-- FULLSCREEN MENU OVERLAY -->
+  <div id="menu-overlay" class="fixed inset-0 z-[60] flex flex-col bg-black/85 backdrop-blur-2xl opacity-0 pointer-events-none transition-opacity duration-500" aria-hidden="true">
+    <div class="flex items-center justify-between px-5 sm:px-10 py-6 max-w-7xl mx-auto w-full">
+      <span class="text-white font-extrabold text-xl md:text-2xl tracking-[0.08em] select-none">EVEREST</span>
+      <button id="menu-close" aria-label="Close menu" class="bg-white/5 hover:bg-white/15 active:scale-95 text-white/90 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer">
+        <span>Close</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <nav class="flex-1 flex flex-col items-center justify-center gap-1 sm:gap-2 px-6">
+      <a href="index.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:0"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">01</span><span class="group-hover:translate-x-2 transition-transform duration-300">Home</span></a>
+      <a href="tours.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:1"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">02</span><span class="group-hover:translate-x-2 transition-transform duration-300">Tours</span></a>
+      <a href="expeditions.html" class="menu-link group flex items-baseline gap-4 text-white hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:2"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">03</span><span class="group-hover:translate-x-2 transition-transform duration-300 underline decoration-[#ff3b30] decoration-2 underline-offset-8">Expeditions</span></a>
+      <a href="about.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:3"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">04</span><span class="group-hover:translate-x-2 transition-transform duration-300">About us</span></a>
+      <a href="contact.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:4"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">05</span><span class="group-hover:translate-x-2 transition-transform duration-300">Contact</span></a>
+    </nav>
+    <div class="menu-link pb-8 sm:pb-10 text-center text-white/40 text-[11px] sm:text-xs tracking-wider select-none" style="--i:5">
+      Thamel, Kathmandu, Nepal &nbsp;·&nbsp; namaste@everest-expeditions.com.np
+    </div>
+  </div>
+
+<script>
+(() => {
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+  const overlay = document.getElementById("menu-overlay");
+  const setMenu = open => {
+    overlay.classList.toggle("open", open);
+    overlay.setAttribute("aria-hidden", String(!open));
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  document.getElementById("menu-btn").addEventListener("click", () => setMenu(true));
+  document.getElementById("menu-close").addEventListener("click", () => setMenu(false));
+  overlay.addEventListener("click", e => { if (e.target === overlay) setMenu(false); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+})();
+</script>
+</body>
+</html>

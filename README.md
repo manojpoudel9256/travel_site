@@ -118,7 +118,11 @@ cleanly with Tailwind's transform utilities.
 
 ```
 travel_site/
-├── index.html                   # The entire site — markup, styles & logic
+├── index.html                   # Home — scroll-scrubbed cinematic landing page
+├── tours.html                   # Treks & tours (EBC, Gokyo, Heli, Three Passes…)
+├── expeditions.html             # Peak climbs (Everest, Lhotse, Ama Dablam…)
+├── about.html                   # Company story, timeline, team & values
+├── contact.html                 # Enquiry form, office details & FAQ
 ├── frames/                      # 340 HD WebP frames (1920×1080, scroll-scrubbed)
 │   ├── frame-001.webp
 │   ├── ...
@@ -127,6 +131,12 @@ travel_site/
 │   └── images/                  # Section imagery (WebP)
 └── landingpage_travelsite.webp  # The screenshot above
 ```
+
+**Multi-page site.** The home page carries the full scroll-video experience;
+the four inner pages (Tours, Expeditions, About, Contact) share the same design
+system — pure-black theme, DM Sans + Playfair, glass cards, red/blue accents,
+the fullscreen menu and footer — but drop the canvas for fast, light fade-in
+reveals. All pages are cross-linked through the nav pill and the fullscreen menu.
 
 ---
 

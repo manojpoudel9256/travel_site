@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#050505" />
+<title>Contact — EVEREST Expeditions Nepal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"DM Sans"', 'sans-serif'],
+          serif: ['"Playfair Display"', 'serif'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: #050505; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @keyframes glowpulse { 0%,100% { opacity:.45; } 50% { opacity:1; } }
+  .glow-pulse { animation: glowpulse 6s ease-in-out infinite; }
+
+  #menu-overlay.open { opacity: 1; pointer-events: auto; }
+  .menu-link {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), color .3s;
+  }
+  #menu-overlay.open .menu-link { opacity: 1; transform: none; transition-delay: calc(var(--i,0) * 70ms + 120ms); }
+
+  /* Form field focus ring in brand blue */
+  .field {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.1);
+    transition: border-color .25s, background .25s;
+  }
+  .field:focus {
+    outline: none;
+    border-color: rgba(0,122,255,.6);
+    background: rgba(255,255,255,.05);
+  }
+  .field::placeholder { color: rgba(255,255,255,.3); }
+</style>
+</head>
+
+<body class="bg-[#050505] text-white font-sans antialiased selection:bg-neutral-800 selection:text-white">
+
+  <!-- HEADER -->
+  <header class="w-full max-w-7xl mx-auto flex items-center justify-between md:grid md:grid-cols-3 px-4 sm:px-8 md:px-16 lg:px-20 pt-6 pb-4">
+    <a href="index.html" class="text-white font-extrabold text-xl md:text-2xl tracking-[0.08em] select-none justify-self-start">EVEREST</a>
+    <div class="hidden md:flex justify-center">
+      <nav class="flex items-center bg-white/[0.04] border border-white/10 rounded-full p-1.5 whitespace-nowrap">
+        <a href="index.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">Home</a>
+        <a href="tours.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">Tours</a>
+        <a href="expeditions.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">Expeditions</a>
+        <a href="about.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">About us</a>
+        <a href="contact.html" class="px-5 py-1.5 rounded-full text-[13px] font-semibold tracking-wide bg-white text-black shadow-md">Contact</a>
+      </nav>
+    </div>
+    <div class="flex justify-end">
+      <button id="menu-btn" aria-label="Open menu" class="bg-white/[0.04] hover:bg-white/10 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap">
+        <span>Open menu</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="relative max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-20 pt-12 sm:pt-20 pb-10 text-center overflow-hidden">
+    <div class="glow-pulse absolute -top-10 left-1/2 -translate-x-1/2 w-[400px] h-[260px] bg-blue-900/15 rounded-full blur-[110px] pointer-events-none"></div>
+    <span class="reveal text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block relative z-10">Get in touch</span>
+    <h1 class="reveal text-4xl sm:text-5xl md:text-[58px] leading-[1.12] tracking-tight font-medium relative z-10" style="transition-delay:.1s">
+      Let's Plan Your <span class="font-serif italic font-light text-blue-400">Himalaya</span>
+    </h1>
+    <p class="reveal text-white/50 text-[13px] sm:text-[14px] leading-relaxed max-w-lg mx-auto mt-5 relative z-10" style="transition-delay:.2s">
+      Tell us your dates, your dream, and your experience level. A real guide — not a chatbot — will write back within one working day.
+    </p>
+  </section>
+
+  <!-- CONTACT GRID -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-8 pb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- LEFT: contact details -->
+      <div class="lg:col-span-5 flex flex-col gap-5">
+
+        <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6">
+          <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mb-3">Office</p>
+          <p class="text-white font-semibold text-[15px] mb-1">EVEREST Expeditions Pvt. Ltd.</p>
+          <p class="text-white/50 text-[13px] leading-relaxed">Z Street, Thamel<br/>Kathmandu 44600, Nepal</p>
+        </div>
+
+        <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6" style="transition-delay:.06s">
+          <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mb-3">Reach us</p>
+          <div class="space-y-2.5">
+            <a href="mailto:namaste@everest-expeditions.com.np" class="flex items-center gap-3 text-white/70 hover:text-white text-[13px] transition-colors group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              namaste@everest-expeditions.com.np
+            </a>
+            <a href="tel:+97714700000" class="flex items-center gap-3 text-white/70 hover:text-white text-[13px] transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              +977 1 4700000 &nbsp;<span class="text-white/30 text-xs">(office)</span>
+            </a>
+            <a href="https://wa.me/9779800000000" class="flex items-center gap-3 text-white/70 hover:text-white text-[13px] transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              +977 980-0000000 &nbsp;<span class="text-white/30 text-xs">(WhatsApp / Viber)</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6" style="transition-delay:.12s">
+          <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mb-3">Office hours</p>
+          <p class="text-white/70 text-[13px] leading-relaxed">Sunday – Friday, 9:00 – 18:00 <span class="text-white/40">(NPT, UTC+5:45)</span></p>
+          <p class="text-white/40 text-xs leading-relaxed mt-1.5">Saturday is our weekend, as across Nepal. Email is answered daily during trekking season.</p>
+        </div>
+
+        <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6" style="transition-delay:.18s">
+          <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mb-3">Best time to visit</p>
+          <p class="text-white/70 text-[13px] leading-relaxed">Spring: March – May &nbsp;·&nbsp; Autumn: September – November. We plan trips 3–9 months ahead; Everest expeditions, a full year.</p>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: enquiry form -->
+      <div class="lg:col-span-7">
+        <form id="enquiry-form" class="reveal relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[28px] p-6 sm:p-8" novalidate>
+          <div class="glow-pulse absolute right-0 top-0 w-[240px] h-[240px] bg-blue-600/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+          <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-white/60 text-[11px] uppercase tracking-wider font-semibold mb-1.5">Full name</label>
+              <input required name="name" type="text" placeholder="Your name" class="field w-full rounded-xl px-4 py-2.5 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-white/60 text-[11px] uppercase tracking-wider font-semibold mb-1.5">Email</label>
+              <input required name="email" type="email" placeholder="you@email.com" class="field w-full rounded-xl px-4 py-2.5 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-white/60 text-[11px] uppercase tracking-wider font-semibold mb-1.5">Country</label>
+              <input name="country" type="text" placeholder="Where you're travelling from" class="field w-full rounded-xl px-4 py-2.5 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-white/60 text-[11px] uppercase tracking-wider font-semibold mb-1.5">Trip type</label>
+              <select name="trip" class="field w-full rounded-xl px-4 py-2.5 text-sm text-white">
+                <option class="bg-neutral-900">Everest Base Camp Trek</option>
+                <option class="bg-neutral-900">Everest Heli Tour</option>
+                <option class="bg-neutral-900">Gokyo Lakes / Three Passes</option>
+                <option class="bg-neutral-900">Peak Climb (6,000 m)</option>
+                <option class="bg-neutral-900">Everest / 8,000 m Expedition</option>
+                <option class="bg-neutral-900">Not sure yet — advise me</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-white/60 text-[11px] uppercase tracking-wider font-semibold mb-1.5">Preferred month</label>
+              <input name="month" type="text" placeholder="e.g. October 2026" class="field w-full rounded-xl px-4 py-2.5 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block text-white/60 text-[11px] uppercase tracking-wider font-semibold mb-1.5">Group size</label>
+              <input name="group" type="number" min="1" placeholder="How many trekkers?" class="field w-full rounded-xl px-4 py-2.5 text-sm text-white" />
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-white/60 text-[11px] uppercase tracking-wider font-semibold mb-1.5">Tell us about your dream trip</label>
+              <textarea name="message" rows="4" placeholder="Experience level, fitness, altitude history, questions..." class="field w-full rounded-xl px-4 py-3 text-sm text-white resize-none"></textarea>
+            </div>
+          </div>
+
+          <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+            <p id="form-note" class="text-white/40 text-xs order-2 sm:order-1">We reply within one working day. No spam, ever.</p>
+            <button type="submit" class="order-1 sm:order-2 group bg-white text-black pl-6 pr-2 py-2 rounded-full font-semibold text-sm flex items-center gap-3 hover:bg-neutral-100 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-white/5">
+              <span class="font-medium tracking-wide">Send enquiry</span>
+              <span class="bg-[#0051e0] group-hover:bg-[#0041b3] text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-8 pb-24">
+    <div class="text-center mb-10">
+      <span class="reveal text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block">Before you write</span>
+      <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight" style="transition-delay:.1s">Quick <span class="font-serif italic font-light text-blue-400">Answers</span></h2>
+    </div>
+    <div class="space-y-3">
+      <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-5">
+        <h3 class="text-white font-semibold text-[14px] mb-1.5">Do I need a visa for Nepal?</h3>
+        <p class="text-white/50 text-[13px] leading-relaxed">Most nationalities get a tourist visa on arrival at Kathmandu (Tribhuvan) airport — bring USD cash and a passport photo. We'll send a full checklist once your trip is booked.</p>
+      </div>
+      <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-5" style="transition-delay:.06s">
+        <h3 class="text-white font-semibold text-[14px] mb-1.5">How fit do I need to be for Base Camp?</h3>
+        <p class="text-white/50 text-[13px] leading-relaxed">If you can comfortably hike 5–6 hours a day on hills for a week, you're ready. It's about endurance and acclimatization, not technical skill — our itineraries build in rest days by design.</p>
+      </div>
+      <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-5" style="transition-delay:.12s">
+        <h3 class="text-white font-semibold text-[14px] mb-1.5">Is travel insurance required?</h3>
+        <p class="text-white/50 text-[13px] leading-relaxed">Yes — we require insurance covering high-altitude trekking and helicopter evacuation. For expeditions, coverage must extend to your peak's summit altitude. We're happy to recommend providers.</p>
+      </div>
+      <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-5" style="transition-delay:.18s">
+        <h3 class="text-white font-semibold text-[14px] mb-1.5">What's the payment process?</h3>
+        <p class="text-white/50 text-[13px] leading-relaxed">A deposit secures your dates and permits; the balance is due before departure. We accept bank transfer and major cards, and provide a formal invoice for your records.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="w-full text-center text-neutral-600 text-[11px] py-8 select-none border-t border-white/5 bg-[#030303]">
+    <p>© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.</p>
+  </footer>
+
+  <!-- FULLSCREEN MENU OVERLAY -->
+  <div id="menu-overlay" class="fixed inset-0 z-[60] flex flex-col bg-black/85 backdrop-blur-2xl opacity-0 pointer-events-none transition-opacity duration-500" aria-hidden="true">
+    <div class="flex items-center justify-between px-5 sm:px-10 py-6 max-w-7xl mx-auto w-full">
+      <span class="text-white font-extrabold text-xl md:text-2xl tracking-[0.08em] select-none">EVEREST</span>
+      <button id="menu-close" aria-label="Close menu" class="bg-white/5 hover:bg-white/15 active:scale-95 text-white/90 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer">
+        <span>Close</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <nav class="flex-1 flex flex-col items-center justify-center gap-1 sm:gap-2 px-6">
+      <a href="index.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:0"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">01</span><span class="group-hover:translate-x-2 transition-transform duration-300">Home</span></a>
+      <a href="tours.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:1"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">02</span><span class="group-hover:translate-x-2 transition-transform duration-300">Tours</span></a>
+      <a href="expeditions.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:2"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">03</span><span class="group-hover:translate-x-2 transition-transform duration-300">Expeditions</span></a>
+      <a href="about.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:3"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">04</span><span class="group-hover:translate-x-2 transition-transform duration-300">About us</span></a>
+      <a href="contact.html" class="menu-link group flex items-baseline gap-4 text-white hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:4"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">05</span><span class="group-hover:translate-x-2 transition-transform duration-300 underline decoration-[#ff3b30] decoration-2 underline-offset-8">Contact</span></a>
+    </nav>
+    <div class="menu-link pb-8 sm:pb-10 text-center text-white/40 text-[11px] sm:text-xs tracking-wider select-none" style="--i:5">
+      Thamel, Kathmandu, Nepal &nbsp;·&nbsp; namaste@everest-expeditions.com.np
+    </div>
+  </div>
+
+<script>
+(() => {
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+  const overlay = document.getElementById("menu-overlay");
+  const setMenu = open => {
+    overlay.classList.toggle("open", open);
+    overlay.setAttribute("aria-hidden", String(!open));
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  document.getElementById("menu-btn").addEventListener("click", () => setMenu(true));
+  document.getElementById("menu-close").addEventListener("click", () => setMenu(false));
+  overlay.addEventListener("click", e => { if (e.target === overlay) setMenu(false); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+
+  // Enquiry form — client-side only (no backend wired yet)
+  const form = document.getElementById("enquiry-form");
+  const note = document.getElementById("form-note");
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    if (!name || !email || !email.includes("@")) {
+      note.textContent = "Please enter your name and a valid email.";
+      note.className = "text-[#ff3b30] text-xs order-2 sm:order-1";
+      return;
+    }
+    note.textContent = "Thank you, " + name.split(" ")[0] + "! A guide will reply within one working day.";
+    note.className = "text-emerald-400 text-xs order-2 sm:order-1";
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>
