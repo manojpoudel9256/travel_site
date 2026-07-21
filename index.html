@@ -143,6 +143,13 @@
     border-bottom-color: rgba(255, 255, 255, .06);
   }
 
+  /* Language switch buttons — text pill (desktop) + flag chips (mobile) */
+  .lang-btn { transition: background-color .25s, color .25s, opacity .25s, border-color .25s; cursor: pointer; }
+  .lang-toggle .lang-btn { color: rgba(255,255,255,.55); }
+  .lang-toggle .lang-btn.lang-active { background: #fff; color: #000; }
+  .flag-btn { opacity: .4; }
+  .flag-btn.lang-active { opacity: 1; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.55); }
+
   /* Fullscreen menu overlay */
   #menu-overlay.open { opacity: 1; pointer-events: auto; }
   .menu-link {
@@ -680,12 +687,28 @@
       </a>
     </nav>
 
-    <!-- Language toggle (mobile) -->
-    <div class="flex justify-center pb-6">
-      <div class="lang-toggle flex items-center gap-1 bg-white/5 border border-white/15 rounded-full p-1">
-        <button data-set-lang="en" class="lang-btn px-5 py-1.5 rounded-full text-sm font-semibold transition-colors">EN</button>
-        <button data-set-lang="ja" class="lang-btn px-5 py-1.5 rounded-full text-sm font-semibold transition-colors">日本語</button>
-      </div>
+    <!-- Language toggle (mobile) — flag chips -->
+    <div class="flex justify-center gap-3 pb-6">
+      <button data-set-lang="en" class="lang-btn flag-btn flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-white/15">
+        <span class="w-7 h-5 rounded-[3px] overflow-hidden inline-block border border-white/20 shrink-0">
+          <svg viewBox="0 0 60 40" preserveAspectRatio="none" class="w-full h-full block">
+            <rect width="60" height="40" fill="#012169"/>
+            <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/>
+            <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/>
+            <rect x="25" width="10" height="40" fill="#fff"/><rect y="15" width="60" height="10" fill="#fff"/>
+            <rect x="27" width="6" height="40" fill="#C8102E"/><rect y="17" width="60" height="6" fill="#C8102E"/>
+          </svg>
+        </span>
+        <span class="text-sm font-semibold text-white">English</span>
+      </button>
+      <button data-set-lang="ja" class="lang-btn flag-btn flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-white/15">
+        <span class="w-7 h-5 rounded-[3px] overflow-hidden inline-block border border-white/20 shrink-0">
+          <svg viewBox="0 0 60 40" preserveAspectRatio="none" class="w-full h-full block">
+            <rect width="60" height="40" fill="#fff"/><circle cx="30" cy="20" r="11" fill="#bc002d"/>
+          </svg>
+        </span>
+        <span class="text-sm font-semibold text-white">日本語</span>
+      </button>
     </div>
 
     <!-- Overlay footer -->
@@ -892,10 +915,7 @@
 
   function updateLangButtons(l) {
     document.querySelectorAll(".lang-btn").forEach(b => {
-      const on = b.getAttribute("data-set-lang") === l;
-      b.classList.toggle("bg-white", on);
-      b.classList.toggle("text-black", on);
-      b.classList.toggle("text-white/55", !on);
+      b.classList.toggle("lang-active", b.getAttribute("data-set-lang") === l);
     });
   }
 

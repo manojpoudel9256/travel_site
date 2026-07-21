@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Noto+Sans+JP:wght@400;500;700;800&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -16,8 +16,8 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['"DM Sans"', 'sans-serif'],
-          serif: ['"Playfair Display"', 'serif'],
+          sans: ['"DM Sans"', '"Noto Sans JP"', 'sans-serif'],
+          serif: ['"Playfair Display"', '"Noto Serif JP"', 'serif'],
         },
       },
     },
@@ -47,6 +47,11 @@
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     border-bottom-color: rgba(255,255,255,.06);
   }
+  .lang-btn { transition: background-color .25s, color .25s, opacity .25s, border-color .25s; cursor: pointer; }
+  .lang-toggle .lang-btn { color: rgba(255,255,255,.55); }
+  .lang-toggle .lang-btn.lang-active { background: #fff; color: #000; }
+  .flag-btn { opacity: .4; }
+  .flag-btn.lang-active { opacity: 1; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.55); }
 
   @keyframes glowpulse { 0%,100% { opacity:.45; } 50% { opacity:1; } }
   .glow-pulse { animation: glowpulse 6s ease-in-out infinite; }
@@ -76,8 +81,12 @@
         <a href="contact.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">Contact</a>
       </nav>
     </div>
-    <div class="flex justify-end md:hidden">
-      <button id="menu-btn" aria-label="Open menu" class="bg-white/[0.04] hover:bg-white/10 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap">
+    <div class="flex items-center justify-end gap-2.5">
+      <div class="lang-toggle hidden md:flex items-center gap-1 bg-white/[0.04] border border-white/15 rounded-full p-1">
+        <button data-set-lang="en" class="lang-btn px-2.5 py-1 rounded-full text-[12px] font-semibold">EN</button>
+        <button data-set-lang="ja" class="lang-btn px-2.5 py-1 rounded-full text-[12px] font-semibold">日本語</button>
+      </div>
+      <button id="menu-btn" aria-label="Open menu" class="md:hidden bg-white/[0.04] hover:bg-white/10 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap">
         <span>Menu</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
       </button>
@@ -88,11 +97,11 @@
   <!-- PAGE HERO -->
   <section class="relative max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-20 pt-12 sm:pt-20 pb-8 text-center overflow-hidden">
     <div class="glow-pulse absolute -top-10 left-1/2 -translate-x-1/2 w-[400px] h-[260px] bg-red-900/15 rounded-full blur-[110px] pointer-events-none"></div>
-    <span class="reveal text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block relative z-10">Our Story</span>
-    <h1 class="reveal text-4xl sm:text-5xl md:text-[58px] leading-[1.12] tracking-tight font-medium relative z-10" style="transition-delay:.1s">
+    <span class="reveal text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block relative z-10" data-ja="私たちの物語">Our Story</span>
+    <h1 class="reveal text-4xl sm:text-5xl md:text-[58px] leading-[1.12] tracking-tight font-medium relative z-10" style="transition-delay:.1s" data-ja='サガルマータの <span class="font-serif italic font-light text-blue-400">麓に</span> 生まれて'>
       Born in the Shadow <span class="font-serif italic font-light text-blue-400">of</span> Sagarmatha
     </h1>
-    <p class="reveal text-white/50 text-[13px] sm:text-[14px] leading-relaxed max-w-lg mx-auto mt-5 relative z-10" style="transition-delay:.2s">
+    <p class="reveal text-white/50 text-[13px] sm:text-[14px] leading-relaxed max-w-lg mx-auto mt-5 relative z-10" style="transition-delay:.2s" data-ja='サガルマータ——「空の頭」——それが、ネパールでのエベレストの呼び名です。私たちの創業者は、あなたが歩くトレイルでヤクを追いながら、その麓で育ちました。この会社は、故郷を分かち合うための私たちの方法です。'>
       Sagarmatha — "the head of the sky" — is what we call Everest in Nepal. Our founders grew up beneath it, herding yaks on the trails you'll trek. This company is our way of sharing home.
     </p>
   </section>
@@ -101,13 +110,13 @@
   <section class="max-w-3xl mx-auto px-4 sm:px-8 pb-16">
     <div class="reveal relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[28px] p-8 sm:p-10">
       <div class="glow-pulse absolute right-0 bottom-0 w-[220px] h-[220px] bg-blue-600/10 rounded-full blur-[90px] pointer-events-none"></div>
-      <p class="text-white/70 text-[14px] leading-relaxed mb-4 relative z-10">
+      <p class="text-white/70 text-[14px] leading-relaxed mb-4 relative z-10" data-ja='EVEREST Expeditions は2004年、クンジュン村出身の二人の兄弟、タメルの借り物の机、そしてわずか4名のトレッキンググループから始まりました。ペンバ・シェルパはすでに海外の遠征隊のためにクンブ・アイスフォールで荷を担いでいました。彼は、ネパール人ガイドは単にロープを担ぐだけでなく、先頭に立って導くべきだと信じていました。'>
         EVEREST Expeditions began in 2004 with two brothers from Khumjung village, a borrowed office desk in Thamel, and a single trekking group of four. Pemba Sherpa had already carried loads through the Khumbu Icefall for foreign expeditions; he believed Nepali guides shouldn't just carry the ropes — they should lead the way.
       </p>
-      <p class="text-white/70 text-[14px] leading-relaxed mb-4 relative z-10">
+      <p class="text-white/70 text-[14px] leading-relaxed mb-4 relative z-10" data-ja='20年後、私たちのガイド——その全員がソルクンブ地方の出身です——は、ナムチェバザールへの家族向けの散策からサガルマータの頂そのものまで、300を超える遠征とトレックを率いてきました。私たちは今も、誇りを持ってネパール資本・カトマンズ拠点であり続けています。'>
         Two decades later, our guides — every one of them from the Solukhumbu region — have led more than 300 expeditions and treks, from family walks to Namche Bazaar to the summit of Sagarmatha itself. We remain proudly Nepali-owned and Kathmandu-based.
       </p>
-      <p class="text-white/70 text-[14px] leading-relaxed relative z-10">
+      <p class="text-white/70 text-[14px] leading-relaxed relative z-10" data-ja='2015年の地震が襲ったとき、私たちのチームはそのシーズンをガイド業ではなく、トレイルと茶屋の再建に費やしました。その選択は1年分の商いを犠牲にしましたが、それ以上のものをもたらしました——ルート沿いのすべての村からの信頼です。'>
         When the 2015 earthquake struck, our teams spent the season rebuilding trails and teahouses instead of guiding. That choice cost us a year of business and earned us something better: the trust of every village along the route.
       </p>
     </div>
@@ -116,29 +125,29 @@
   <!-- TIMELINE -->
   <section class="max-w-4xl mx-auto px-4 sm:px-8 pb-20">
     <div class="text-center mb-10">
-      <span class="reveal text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block">Milestones</span>
-      <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight" style="transition-delay:.1s">Twenty Years <span class="font-serif italic font-light text-blue-400">of</span> Trail Dust</h2>
+      <span class="reveal text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block" data-ja="歩み">Milestones</span>
+      <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight" style="transition-delay:.1s" data-ja='トレイルに刻んだ <span class="font-serif italic font-light text-blue-400">20年</span>'>Twenty Years <span class="font-serif italic font-light text-blue-400">of</span> Trail Dust</h2>
     </div>
     <div class="space-y-4">
       <div class="reveal flex items-start gap-5 bg-white/[0.03] border border-white/10 rounded-2xl p-5">
         <span class="text-[#ff3b30] font-mono font-extrabold text-sm pt-0.5 w-12 flex-shrink-0">2004</span>
-        <p class="text-white/60 text-[13px] leading-relaxed">Founded in Thamel, Kathmandu by Pemba and Lakpa Dorje Sherpa of Khumjung village. First season: 11 trekkers.</p>
+        <p class="text-white/60 text-[13px] leading-relaxed" data-ja="クンジュン村出身のペンバ・シェルパとラクパ・ドルジェ・シェルパが、カトマンズのタメルで創業。最初のシーズンは11名のトレッカー。">Founded in Thamel, Kathmandu by Pemba and Lakpa Dorje Sherpa of Khumjung village. First season: 11 trekkers.</p>
       </div>
       <div class="reveal flex items-start gap-5 bg-white/[0.03] border border-white/10 rounded-2xl p-5" style="transition-delay:.06s">
         <span class="text-[#ff3b30] font-mono font-extrabold text-sm pt-0.5 w-12 flex-shrink-0">2008</span>
-        <p class="text-white/60 text-[13px] leading-relaxed">Our first full Everest expedition puts four clients and five Sherpas on the summit via the South Col.</p>
+        <p class="text-white/60 text-[13px] leading-relaxed" data-ja="初の本格的なエベレスト遠征で、4名のお客様と5名のシェルパがサウスコル経由で登頂。">Our first full Everest expedition puts four clients and five Sherpas on the summit via the South Col.</p>
       </div>
       <div class="reveal flex items-start gap-5 bg-white/[0.03] border border-white/10 rounded-2xl p-5" style="transition-delay:.12s">
         <span class="text-[#ff3b30] font-mono font-extrabold text-sm pt-0.5 w-12 flex-shrink-0">2015</span>
-        <p class="text-white/60 text-[13px] leading-relaxed">After the Gorkha earthquake we suspend commercial trips for the season, rebuilding trails, bridges, and teahouses across Solukhumbu.</p>
+        <p class="text-white/60 text-[13px] leading-relaxed" data-ja="ゴルカ地震の後、そのシーズンの商業ツアーを中止し、ソルクンブ全域でトレイル、橋、茶屋を再建。">After the Gorkha earthquake we suspend commercial trips for the season, rebuilding trails, bridges, and teahouses across Solukhumbu.</p>
       </div>
       <div class="reveal flex items-start gap-5 bg-white/[0.03] border border-white/10 rounded-2xl p-5" style="transition-delay:.18s">
         <span class="text-[#ff3b30] font-mono font-extrabold text-sm pt-0.5 w-12 flex-shrink-0">2019</span>
-        <p class="text-white/60 text-[13px] leading-relaxed">Mingma Yangzi Sherpa becomes our first woman lead guide, heading the season's biggest Base Camp departure.</p>
+        <p class="text-white/60 text-[13px] leading-relaxed" data-ja="ミンマ・ヤンジ・シェルパが当社初の女性主任ガイドとなり、そのシーズン最大のベースキャンプ出発隊を率いる。">Mingma Yangzi Sherpa becomes our first woman lead guide, heading the season's biggest Base Camp departure.</p>
       </div>
       <div class="reveal flex items-start gap-5 bg-white/[0.03] border border-white/10 rounded-2xl p-5" style="transition-delay:.24s">
         <span class="text-[#ff3b30] font-mono font-extrabold text-sm pt-0.5 w-12 flex-shrink-0">2024</span>
-        <p class="text-white/60 text-[13px] leading-relaxed">We celebrate our 300th expedition — and our guides' 100th combined summit of Sagarmatha.</p>
+        <p class="text-white/60 text-[13px] leading-relaxed" data-ja="300回目の遠征——そしてガイドたちによるサガルマータ通算100回目の登頂——を祝う。">We celebrate our 300th expedition — and our guides' 100th combined summit of Sagarmatha.</p>
       </div>
     </div>
   </section>
@@ -146,21 +155,21 @@
   <!-- VALUES -->
   <section class="max-w-6xl mx-auto px-4 sm:px-8 pb-20">
     <div class="text-center mb-10">
-      <span class="reveal text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block">What we stand on</span>
-      <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight" style="transition-delay:.1s">Values <span class="font-serif italic font-light text-blue-400">at</span> Altitude</h2>
+      <span class="reveal text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block" data-ja="私たちの信念">What we stand on</span>
+      <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight" style="transition-delay:.1s" data-ja='高所で貫く <span class="font-serif italic font-light text-blue-400">価値観</span>'>Values <span class="font-serif italic font-light text-blue-400">at</span> Altitude</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 hover:border-white/20 transition-all duration-300">
-        <h3 class="text-[17px] font-semibold tracking-wide mb-2 flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>Safety Before Summits</h3>
-        <p class="text-white/50 text-xs leading-relaxed">No summit is worth a life. Our guides hold the authority — and the obligation — to turn any climb around, no questions asked.</p>
+        <h3 class="text-[17px] font-semibold tracking-wide mb-2 flex items-center gap-2.5" data-ja='<span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>登頂よりも安全を'><span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>Safety Before Summits</h3>
+        <p class="text-white/50 text-xs leading-relaxed" data-ja="どんな登頂も、命には代えられません。私たちのガイドは、いかなる登山も理由を問わず中止する権限——そして義務——を持っています。">No summit is worth a life. Our guides hold the authority — and the obligation — to turn any climb around, no questions asked.</p>
       </div>
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 hover:border-white/20 transition-all duration-300" style="transition-delay:.08s">
-        <h3 class="text-[17px] font-semibold tracking-wide mb-2 flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>Sherpa-Led, Always</h3>
-        <p class="text-white/50 text-xs leading-relaxed">Local leadership isn't a marketing line — it's our founding principle. Every EVEREST trip is led, planned, and profited by people of the Khumbu.</p>
+        <h3 class="text-[17px] font-semibold tracking-wide mb-2 flex items-center gap-2.5" data-ja='<span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>常にシェルパが主導'><span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>Sherpa-Led, Always</h3>
+        <p class="text-white/50 text-xs leading-relaxed" data-ja="地元主導は宣伝文句ではありません——それは私たちの創業の理念です。EVEREST のすべての旅は、クンブの人々によって率いられ、計画され、その利益も還元されます。">Local leadership isn't a marketing line — it's our founding principle. Every EVEREST trip is led, planned, and profited by people of the Khumbu.</p>
       </div>
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 hover:border-white/20 transition-all duration-300" style="transition-delay:.16s">
-        <h3 class="text-[17px] font-semibold tracking-wide mb-2 flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>Leave Only Footprints</h3>
-        <p class="text-white/50 text-xs leading-relaxed">We pack out everything we carry in, follow porter-welfare guidelines for loads and equipment, and fund clean-up treks every season.</p>
+        <h3 class="text-[17px] font-semibold tracking-wide mb-2 flex items-center gap-2.5" data-ja='<span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>足跡だけを残して'><span class="w-2 h-2 rounded-full bg-[#ff3b30]"></span>Leave Only Footprints</h3>
+        <p class="text-white/50 text-xs leading-relaxed" data-ja="持ち込んだものはすべて持ち帰り、荷物と装備についてポーターの福祉ガイドラインを守り、毎シーズン清掃トレックに資金を提供しています。">We pack out everything we carry in, follow porter-welfare guidelines for loads and equipment, and fund clean-up treks every season.</p>
       </div>
     </div>
   </section>
@@ -168,33 +177,33 @@
   <!-- TEAM -->
   <section class="max-w-5xl mx-auto px-4 sm:px-8 pb-20">
     <div class="text-center mb-10">
-      <span class="reveal text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block">The people</span>
-      <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight" style="transition-delay:.1s">Meet Your <span class="font-serif italic font-light text-blue-400">Sherpa</span> Family</h2>
+      <span class="reveal text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block" data-ja="メンバー">The people</span>
+      <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight" style="transition-delay:.1s" data-ja='あなたの <span class="font-serif italic font-light text-blue-400">シェルパ</span> 家族'>Meet Your <span class="font-serif italic font-light text-blue-400">Sherpa</span> Family</h2>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center hover:border-white/20 transition-all duration-300">
         <div class="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-blue-600/40 to-red-600/30 border border-white/15 flex items-center justify-center text-lg font-extrabold mb-4">PS</div>
         <h3 class="text-white font-semibold text-[15px]">Pemba Sherpa</h3>
-        <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mt-1 mb-2">Founder · Lead Guide</p>
-        <p class="text-white/50 text-xs leading-relaxed">12 Everest summits. Started as an Icefall porter at 18; now trains the next generation of guides.</p>
+        <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mt-1 mb-2" data-ja="創業者・主任ガイド">Founder · Lead Guide</p>
+        <p class="text-white/50 text-xs leading-relaxed" data-ja="エベレスト12回登頂。18歳でアイスフォールのポーターとして始め、今は次世代のガイドを育てています。">12 Everest summits. Started as an Icefall porter at 18; now trains the next generation of guides.</p>
       </div>
       <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center hover:border-white/20 transition-all duration-300" style="transition-delay:.08s">
         <div class="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-blue-600/40 to-red-600/30 border border-white/15 flex items-center justify-center text-lg font-extrabold mb-4">LD</div>
         <h3 class="text-white font-semibold text-[15px]">Lakpa Dorje Sherpa</h3>
-        <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mt-1 mb-2">Expedition Director</p>
-        <p class="text-white/50 text-xs leading-relaxed">Co-founder and logistics mastermind — oxygen, ropes, forecasts, and 60-day supply chains to 8,000 m.</p>
+        <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mt-1 mb-2" data-ja="遠征ディレクター">Expedition Director</p>
+        <p class="text-white/50 text-xs leading-relaxed" data-ja="共同創業者にして物流の司令塔——酸素、ロープ、天気予報、そして8,000mへ至る60日間の補給網を担います。">Co-founder and logistics mastermind — oxygen, ropes, forecasts, and 60-day supply chains to 8,000 m.</p>
       </div>
       <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center hover:border-white/20 transition-all duration-300" style="transition-delay:.16s">
         <div class="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-blue-600/40 to-red-600/30 border border-white/15 flex items-center justify-center text-lg font-extrabold mb-4">MY</div>
         <h3 class="text-white font-semibold text-[15px]">Mingma Yangzi Sherpa</h3>
-        <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mt-1 mb-2">Head of Trekking</p>
-        <p class="text-white/50 text-xs leading-relaxed">Our first woman lead guide. Runs every trekking departure and mentors young women into the profession.</p>
+        <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mt-1 mb-2" data-ja="トレッキング統括">Head of Trekking</p>
+        <p class="text-white/50 text-xs leading-relaxed" data-ja="当社初の女性主任ガイド。すべてのトレッキング出発を取り仕切り、若い女性たちをこの職業へと導いています。">Our first woman lead guide. Runs every trekking departure and mentors young women into the profession.</p>
       </div>
       <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center hover:border-white/20 transition-all duration-300" style="transition-delay:.24s">
         <div class="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-blue-600/40 to-red-600/30 border border-white/15 flex items-center justify-center text-lg font-extrabold mb-4">TN</div>
         <h3 class="text-white font-semibold text-[15px]">Tashi Norbu Sherpa</h3>
-        <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mt-1 mb-2">Base Camp Manager</p>
-        <p class="text-white/50 text-xs leading-relaxed">The calm voice on the radio. Manages camp, kitchens, weather calls, and everyone's mother-hen worries.</p>
+        <p class="text-[#ff3b30] text-[10px] uppercase tracking-widest font-bold mt-1 mb-2" data-ja="ベースキャンプ・マネージャー">Base Camp Manager</p>
+        <p class="text-white/50 text-xs leading-relaxed" data-ja="無線越しの穏やかな声。キャンプ、調理、天候判断、そして皆の心配事すべてを取りまとめます。">The calm voice on the radio. Manages camp, kitchens, weather calls, and everyone's mother-hen worries.</p>
       </div>
     </div>
   </section>
@@ -202,17 +211,17 @@
   <!-- CREDENTIALS -->
   <section class="max-w-4xl mx-auto px-4 sm:px-8 pb-24">
     <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-center">
-      <span class="text-white/40 text-[11px] uppercase tracking-widest font-bold">Licensed by the Government of Nepal</span>
+      <span class="text-white/40 text-[11px] uppercase tracking-widest font-bold" data-ja="ネパール政府公認">Licensed by the Government of Nepal</span>
       <span class="text-white/20">·</span>
-      <span class="text-white/40 text-[11px] uppercase tracking-widest font-bold">Member — Nepal Mountaineering Association</span>
+      <span class="text-white/40 text-[11px] uppercase tracking-widest font-bold" data-ja="ネパール登山協会 会員">Member — Nepal Mountaineering Association</span>
       <span class="text-white/20">·</span>
-      <span class="text-white/40 text-[11px] uppercase tracking-widest font-bold">Member — TAAN</span>
+      <span class="text-white/40 text-[11px] uppercase tracking-widest font-bold" data-ja="TAAN（ネパール・トレッキング業協会）会員">Member — TAAN</span>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="w-full text-center text-neutral-600 text-[11px] py-8 select-none border-t border-white/5 bg-[#030303]">
-    <p>© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.</p>
+    <p data-ja="© 2026 EVEREST Expeditions · ネパール、カトマンズ、タメル。シェルパが導き、サガルマータに導かれて。">© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.</p>
   </footer>
 
   <!-- FULLSCREEN MENU OVERLAY -->
@@ -231,7 +240,17 @@
       <a href="about.html" class="menu-link group flex items-baseline gap-4 text-white hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:3"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">04</span><span class="group-hover:translate-x-2 transition-transform duration-300 underline decoration-[#ff3b30] decoration-2 underline-offset-8">About us</span></a>
       <a href="contact.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:4"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">05</span><span class="group-hover:translate-x-2 transition-transform duration-300">Contact</span></a>
     </nav>
-    <div class="menu-link pb-8 sm:pb-10 text-center text-white/40 text-[11px] sm:text-xs tracking-wider select-none" style="--i:5">
+    <div class="flex justify-center gap-3 pb-6">
+      <button data-set-lang="en" class="lang-btn flag-btn flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-white/15">
+        <span class="w-7 h-5 rounded-[3px] overflow-hidden inline-block border border-white/20 shrink-0"><svg viewBox="0 0 60 40" preserveAspectRatio="none" class="w-full h-full block"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/><rect x="25" width="10" height="40" fill="#fff"/><rect y="15" width="60" height="10" fill="#fff"/><rect x="27" width="6" height="40" fill="#C8102E"/><rect y="17" width="60" height="6" fill="#C8102E"/></svg></span>
+        <span class="text-sm font-semibold text-white">English</span>
+      </button>
+      <button data-set-lang="ja" class="lang-btn flag-btn flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-white/15">
+        <span class="w-7 h-5 rounded-[3px] overflow-hidden inline-block border border-white/20 shrink-0"><svg viewBox="0 0 60 40" preserveAspectRatio="none" class="w-full h-full block"><rect width="60" height="40" fill="#fff"/><circle cx="30" cy="20" r="11" fill="#bc002d"/></svg></span>
+        <span class="text-sm font-semibold text-white">日本語</span>
+      </button>
+    </div>
+    <div data-ja='ネパール、カトマンズ、タメル &nbsp;·&nbsp; namaste@everest-expeditions.com.np' class="menu-link pb-8 sm:pb-10 text-center text-white/40 text-[11px] sm:text-xs tracking-wider select-none" style="--i:5">
       Thamel, Kathmandu, Nepal &nbsp;·&nbsp; namaste@everest-expeditions.com.np
     </div>
   </div>
@@ -262,6 +281,33 @@
     window.addEventListener("scroll", onHeaderScroll, { passive: true });
     onHeaderScroll();
   }
+
+  /* ---------- Language switch (English / 日本語) ---------- */
+  const NAV_JA = { "Home":"ホーム", "Tours":"ツアー", "Expeditions":"遠征", "About us":"私たちについて", "Contact":"お問い合わせ", "Menu":"メニュー", "Close":"閉じる" };
+  const store = new Map();
+  [...document.querySelectorAll("header nav a"),
+   ...document.querySelectorAll("#menu-overlay nav a > span:last-child"),
+   ...document.querySelectorAll("#menu-btn > span"),
+   ...document.querySelectorAll("#menu-close > span")
+  ].forEach(el => { const en = el.textContent.trim(); if (NAV_JA[en]) store.set(el, { en, ja: NAV_JA[en], html: false }); });
+  document.querySelectorAll("[data-ja]").forEach(el => store.set(el, { en: el.innerHTML, ja: el.getAttribute("data-ja"), html: true }));
+  const phEls = [...document.querySelectorAll("[data-ja-ph]")];
+  phEls.forEach(el => el._enPh = el.getAttribute("placeholder") || "");
+
+  function updateLangButtons(l) {
+    document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("lang-active", b.getAttribute("data-set-lang") === l));
+  }
+  function setLang(l) {
+    document.documentElement.setAttribute("lang", l);
+    localStorage.setItem("site-lang", l);
+    store.forEach((v, el) => { const val = (l === "ja") ? v.ja : v.en; if (v.html) el.innerHTML = val; else el.textContent = val; });
+    phEls.forEach(el => el.setAttribute("placeholder", (l === "ja") ? el.getAttribute("data-ja-ph") : el._enPh));
+    updateLangButtons(l);
+  }
+  let siteLang = localStorage.getItem("site-lang");
+  if (!siteLang) siteLang = (navigator.language || "").toLowerCase().startsWith("ja") ? "ja" : "en";
+  setLang(siteLang);
+  document.querySelectorAll(".lang-btn").forEach(b => b.addEventListener("click", () => setLang(b.getAttribute("data-set-lang"))));
 })();
 </script>
 </body>

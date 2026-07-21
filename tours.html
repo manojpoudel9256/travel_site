@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Noto+Sans+JP:wght@400;500;700;800&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -16,8 +16,8 @@
     theme: {
       extend: {
         fontFamily: {
-          sans: ['"DM Sans"', 'sans-serif'],
-          serif: ['"Playfair Display"', 'serif'],
+          sans: ['"DM Sans"', '"Noto Sans JP"', 'sans-serif'],
+          serif: ['"Playfair Display"', '"Noto Serif JP"', 'serif'],
         },
       },
     },
@@ -47,6 +47,11 @@
     backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     border-bottom-color: rgba(255,255,255,.06);
   }
+  .lang-btn { transition: background-color .25s, color .25s, opacity .25s, border-color .25s; cursor: pointer; }
+  .lang-toggle .lang-btn { color: rgba(255,255,255,.55); }
+  .lang-toggle .lang-btn.lang-active { background: #fff; color: #000; }
+  .flag-btn { opacity: .4; }
+  .flag-btn.lang-active { opacity: 1; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.55); }
 
   @keyframes glowpulse { 0%,100% { opacity:.45; } 50% { opacity:1; } }
   .glow-pulse { animation: glowpulse 6s ease-in-out infinite; }
@@ -78,8 +83,12 @@
         <a href="contact.html" class="px-5 py-1.5 rounded-full text-[13px] font-medium tracking-wide transition-all duration-300 text-white/60 hover:text-white">Contact</a>
       </nav>
     </div>
-    <div class="flex justify-end md:hidden">
-      <button id="menu-btn" aria-label="Open menu" class="bg-white/[0.04] hover:bg-white/10 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap">
+    <div class="flex items-center justify-end gap-2.5">
+      <div class="lang-toggle hidden md:flex items-center gap-1 bg-white/[0.04] border border-white/15 rounded-full p-1">
+        <button data-set-lang="en" class="lang-btn px-2.5 py-1 rounded-full text-[12px] font-semibold">EN</button>
+        <button data-set-lang="ja" class="lang-btn px-2.5 py-1 rounded-full text-[12px] font-semibold">日本語</button>
+      </div>
+      <button id="menu-btn" aria-label="Open menu" class="md:hidden bg-white/[0.04] hover:bg-white/10 active:scale-95 text-white/95 text-[13px] font-semibold border border-white/15 px-5 py-2.5 rounded-full transition-all duration-200 flex items-center gap-2 cursor-pointer whitespace-nowrap">
         <span>Menu</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
       </button>
@@ -90,11 +99,11 @@
   <!-- PAGE HERO -->
   <section class="relative max-w-7xl mx-auto px-4 sm:px-8 md:px-16 lg:px-20 pt-12 sm:pt-20 pb-8 text-center overflow-hidden">
     <div class="glow-pulse absolute -top-10 left-1/2 -translate-x-1/2 w-[400px] h-[260px] bg-blue-900/15 rounded-full blur-[110px] pointer-events-none"></div>
-    <span class="reveal text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block relative z-10">Treks &amp; Tours</span>
-    <h1 class="reveal text-4xl sm:text-5xl md:text-[58px] leading-[1.12] tracking-tight font-medium relative z-10" style="transition-delay:.1s">
+    <span class="reveal text-[#007aff] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-4 block relative z-10" data-ja="トレッキング＆ツアー">Treks &amp; Tours</span>
+    <h1 class="reveal text-4xl sm:text-5xl md:text-[58px] leading-[1.12] tracking-tight font-medium relative z-10" style="transition-delay:.1s" data-ja='クンブを <span class="font-serif italic font-light text-blue-400">歩く</span> 旅へ'>
       Journeys Through <span class="font-serif italic font-light text-blue-400">the</span> Khumbu
     </h1>
-    <p class="reveal text-white/50 text-[13px] sm:text-[14px] leading-relaxed max-w-lg mx-auto mt-5 relative z-10" style="transition-delay:.2s">
+    <p class="reveal text-white/50 text-[13px] sm:text-[14px] leading-relaxed max-w-lg mx-auto mt-5 relative z-10" style="transition-delay:.2s" data-ja='エベレスト・ベースキャンプへの古典的なトレイルから、ターコイズ色の氷河湖、ヘリコプターで望む朝日まで——すべての旅を、この谷を故郷とする公認の地元ガイドがご案内します。'>
       From the classic trail to Everest Base Camp to turquoise glacial lakes and helicopter sunrises — every journey is led by licensed local guides who call these valleys home.
     </p>
   </section>
@@ -102,16 +111,16 @@
   <!-- QUICK FACTS STRIP -->
   <section class="max-w-5xl mx-auto px-4 sm:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4 pb-14">
     <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center">
-      <p class="text-white font-semibold text-sm mb-1">Best Seasons</p>
-      <p class="text-white/50 text-xs leading-relaxed">Spring (March–May) for rhododendron blooms · Autumn (September–November) for the clearest skies</p>
+      <p class="text-white font-semibold text-sm mb-1" data-ja="ベストシーズン">Best Seasons</p>
+      <p class="text-white/50 text-xs leading-relaxed" data-ja="春（3〜5月）はシャクナゲが咲き、秋（9〜11月）は空が最も澄み渡ります。">Spring (March–May) for rhododendron blooms · Autumn (September–November) for the clearest skies</p>
     </div>
     <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center" style="transition-delay:.1s">
-      <p class="text-white font-semibold text-sm mb-1">Gateway</p>
-      <p class="text-white/50 text-xs leading-relaxed">Fly Kathmandu → Lukla (Tenzing–Hillary Airport, 2,846 m), then walk into the Sagarmatha National Park</p>
+      <p class="text-white font-semibold text-sm mb-1" data-ja="玄関口">Gateway</p>
+      <p class="text-white/50 text-xs leading-relaxed" data-ja="カトマンズからルクラ（テンジン・ヒラリー空港、標高2,846m）へ空路で入り、サガルマータ国立公園へと歩き始めます。">Fly Kathmandu → Lukla (Tenzing–Hillary Airport, 2,846 m), then walk into the Sagarmatha National Park</p>
     </div>
     <div class="reveal bg-white/[0.03] border border-white/10 rounded-2xl p-5 text-center" style="transition-delay:.2s">
-      <p class="text-white font-semibold text-sm mb-1">Permits</p>
-      <p class="text-white/50 text-xs leading-relaxed">Sagarmatha National Park entry &amp; Khumbu Pasang Lhamu Rural Municipality permit — we arrange both</p>
+      <p class="text-white font-semibold text-sm mb-1" data-ja="許可証">Permits</p>
+      <p class="text-white/50 text-xs leading-relaxed" data-ja="サガルマータ国立公園の入園許可と、クンブ・パサンラム地方自治体の許可——どちらも当社が手配します。">Sagarmatha National Park entry &amp; Khumbu Pasang Lhamu Rural Municipality permit — we arrange both</p>
     </div>
   </section>
 
@@ -122,90 +131,90 @@
       <!-- 1. EBC Trek -->
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300 group">
         <div class="flex items-center justify-between mb-5">
-          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Signature</span>
-          <span class="text-[10px] text-[#ff3b30] font-bold uppercase tracking-wider">Moderate–Hard</span>
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-ja="定番">Signature</span>
+          <span class="text-[10px] text-[#ff3b30] font-bold uppercase tracking-wider" data-ja="中級〜上級">Moderate–Hard</span>
         </div>
-        <h3 class="text-[19px] font-semibold tracking-wide mb-2">Everest Base Camp Trek</h3>
-        <p class="text-white/50 text-xs leading-relaxed mb-5">The world's most famous trail — Namche Bazaar, Tengboche Monastery, and sunrise over Everest from Kala Patthar (5,545 m).</p>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-2" data-ja="エベレスト・ベースキャンプ・トレック">Everest Base Camp Trek</h3>
+        <p class="text-white/50 text-xs leading-relaxed mb-5" data-ja="世界で最も有名なトレイル——ナムチェバザール、タンボチェ僧院、そしてカラパタール（標高5,545m）から望むエベレストの朝日。">The world's most famous trail — Namche Bazaar, Tengboche Monastery, and sunrise over Everest from Kala Patthar (5,545 m).</p>
         <div class="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-4 text-center">
-          <div><p class="text-white font-bold text-sm">14 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Duration</p></div>
-          <div><p class="text-white font-bold text-sm">5,545 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Max Alt.</p></div>
-          <div><p class="text-blue-400 font-bold text-sm">$1,450</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">From</p></div>
+          <div><p class="text-white font-bold text-sm" data-ja="14日間">14 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="日数">Duration</p></div>
+          <div><p class="text-white font-bold text-sm">5,545 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="最高標高">Max Alt.</p></div>
+          <div><p class="text-blue-400 font-bold text-sm">$1,450</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="料金">From</p></div>
         </div>
       </div>
 
       <!-- 2. Heli Tour -->
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300 group" style="transition-delay:.08s">
         <div class="flex items-center justify-between mb-5">
-          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Luxury</span>
-          <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Easy</span>
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-ja="贅沢">Luxury</span>
+          <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider" data-ja="初級">Easy</span>
         </div>
-        <h3 class="text-[19px] font-semibold tracking-wide mb-2">Everest Heli Tour</h3>
-        <p class="text-white/50 text-xs leading-relaxed mb-5">Sunrise flight from Kathmandu with a Kala Patthar landing and champagne breakfast at Hotel Everest View (3,880 m) — home by lunch.</p>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-2" data-ja="エベレスト・ヘリツアー">Everest Heli Tour</h3>
+        <p class="text-white/50 text-xs leading-relaxed mb-5" data-ja="カトマンズから朝日のフライト。カラパタールに着陸し、ホテル・エベレスト・ビュー（標高3,880m）でシャンパン付きの朝食を。昼までにお戻りいただけます。">Sunrise flight from Kathmandu with a Kala Patthar landing and champagne breakfast at Hotel Everest View (3,880 m) — home by lunch.</p>
         <div class="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-4 text-center">
-          <div><p class="text-white font-bold text-sm">1 day</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Duration</p></div>
-          <div><p class="text-white font-bold text-sm">5,545 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Max Alt.</p></div>
-          <div><p class="text-blue-400 font-bold text-sm">$1,150</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">From</p></div>
+          <div><p class="text-white font-bold text-sm" data-ja="1日">1 day</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="日数">Duration</p></div>
+          <div><p class="text-white font-bold text-sm">5,545 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="最高標高">Max Alt.</p></div>
+          <div><p class="text-blue-400 font-bold text-sm">$1,150</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="料金">From</p></div>
         </div>
       </div>
 
       <!-- 3. Gokyo -->
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300 group" style="transition-delay:.16s">
         <div class="flex items-center justify-between mb-5">
-          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Scenic</span>
-          <span class="text-[10px] text-[#ff3b30] font-bold uppercase tracking-wider">Moderate–Hard</span>
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-ja="絶景">Scenic</span>
+          <span class="text-[10px] text-[#ff3b30] font-bold uppercase tracking-wider" data-ja="中級〜上級">Moderate–Hard</span>
         </div>
-        <h3 class="text-[19px] font-semibold tracking-wide mb-2">Gokyo Lakes &amp; Gokyo Ri</h3>
-        <p class="text-white/50 text-xs leading-relaxed mb-5">Six turquoise glacial lakes beside the Ngozumpa Glacier — Nepal's longest — and a four-peak panorama from Gokyo Ri (5,357 m).</p>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-2" data-ja="ゴーキョ湖群とゴーキョ・リ">Gokyo Lakes &amp; Gokyo Ri</h3>
+        <p class="text-white/50 text-xs leading-relaxed mb-5" data-ja="ネパール最長のンゴジュンパ氷河のほとりに広がる6つのターコイズ色の氷河湖と、ゴーキョ・リ（標高5,357m）から望む4峰のパノラマ。">Six turquoise glacial lakes beside the Ngozumpa Glacier — Nepal's longest — and a four-peak panorama from Gokyo Ri (5,357 m).</p>
         <div class="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-4 text-center">
-          <div><p class="text-white font-bold text-sm">12 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Duration</p></div>
-          <div><p class="text-white font-bold text-sm">5,357 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Max Alt.</p></div>
-          <div><p class="text-blue-400 font-bold text-sm">$1,350</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">From</p></div>
+          <div><p class="text-white font-bold text-sm" data-ja="12日間">12 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="日数">Duration</p></div>
+          <div><p class="text-white font-bold text-sm">5,357 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="最高標高">Max Alt.</p></div>
+          <div><p class="text-blue-400 font-bold text-sm">$1,350</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="料金">From</p></div>
         </div>
       </div>
 
       <!-- 4. Three Passes -->
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300 group">
         <div class="flex items-center justify-between mb-5">
-          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Ultimate</span>
-          <span class="text-[10px] text-[#ff3b30] font-bold uppercase tracking-wider">Challenging</span>
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-ja="究極">Ultimate</span>
+          <span class="text-[10px] text-[#ff3b30] font-bold uppercase tracking-wider" data-ja="難関">Challenging</span>
         </div>
-        <h3 class="text-[19px] font-semibold tracking-wide mb-2">Everest Three Passes</h3>
-        <p class="text-white/50 text-xs leading-relaxed mb-5">The complete Khumbu circuit over Kongma La (5,535 m), Cho La (5,420 m), and Renjo La (5,360 m) — Base Camp and Gokyo in one epic loop.</p>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-2" data-ja="エベレスト三峠越え">Everest Three Passes</h3>
+        <p class="text-white/50 text-xs leading-relaxed mb-5" data-ja="コンマ・ラ（5,535m）、チョ・ラ（5,420m）、レンジョ・ラ（5,360m）を越えるクンブ完全周回——ベースキャンプとゴーキョを一度の壮大なループで。">The complete Khumbu circuit over Kongma La (5,535 m), Cho La (5,420 m), and Renjo La (5,360 m) — Base Camp and Gokyo in one epic loop.</p>
         <div class="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-4 text-center">
-          <div><p class="text-white font-bold text-sm">18 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Duration</p></div>
-          <div><p class="text-white font-bold text-sm">5,545 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Max Alt.</p></div>
-          <div><p class="text-blue-400 font-bold text-sm">$1,750</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">From</p></div>
+          <div><p class="text-white font-bold text-sm" data-ja="18日間">18 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="日数">Duration</p></div>
+          <div><p class="text-white font-bold text-sm">5,545 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="最高標高">Max Alt.</p></div>
+          <div><p class="text-blue-400 font-bold text-sm">$1,750</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="料金">From</p></div>
         </div>
       </div>
 
       <!-- 5. Panorama -->
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300 group" style="transition-delay:.08s">
         <div class="flex items-center justify-between mb-5">
-          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Family</span>
-          <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Easy–Moderate</span>
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-ja="ファミリー">Family</span>
+          <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider" data-ja="初級〜中級">Easy–Moderate</span>
         </div>
-        <h3 class="text-[19px] font-semibold tracking-wide mb-2">Everest Panorama Trek</h3>
-        <p class="text-white/50 text-xs leading-relaxed mb-5">A gentler week to Namche Bazaar and Khumjung village with grandstand Everest views — ideal for families and first-time trekkers.</p>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-2" data-ja="エベレスト・パノラマ・トレック">Everest Panorama Trek</h3>
+        <p class="text-white/50 text-xs leading-relaxed mb-5" data-ja="ナムチェバザールとクンジュン村へのゆったりとした一週間。エベレストの絶景を望む、家族連れや初めての方に最適なコースです。">A gentler week to Namche Bazaar and Khumjung village with grandstand Everest views — ideal for families and first-time trekkers.</p>
         <div class="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-4 text-center">
-          <div><p class="text-white font-bold text-sm">7 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Duration</p></div>
-          <div><p class="text-white font-bold text-sm">3,880 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Max Alt.</p></div>
-          <div><p class="text-blue-400 font-bold text-sm">$850</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">From</p></div>
+          <div><p class="text-white font-bold text-sm" data-ja="7日間">7 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="日数">Duration</p></div>
+          <div><p class="text-white font-bold text-sm">3,880 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="最高標高">Max Alt.</p></div>
+          <div><p class="text-blue-400 font-bold text-sm">$850</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="料金">From</p></div>
         </div>
       </div>
 
       <!-- 6. Classic Route -->
       <div class="reveal relative overflow-hidden bg-gradient-to-b from-blue-900/40 via-blue-950/45 to-neutral-950/90 border border-white/10 rounded-[24px] p-6 flex flex-col hover:border-white/20 transition-all duration-300 group" style="transition-delay:.16s">
         <div class="flex items-center justify-between mb-5">
-          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono">Heritage</span>
-          <span class="text-[10px] text-[#ff3b30] font-bold uppercase tracking-wider">Moderate</span>
+          <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-white/60 tracking-wider font-semibold uppercase font-mono" data-ja="歴史">Heritage</span>
+          <span class="text-[10px] text-[#ff3b30] font-bold uppercase tracking-wider" data-ja="中級">Moderate</span>
         </div>
-        <h3 class="text-[19px] font-semibold tracking-wide mb-2">Pioneers' Route via Phaplu</h3>
-        <p class="text-white/50 text-xs leading-relaxed mb-5">Walk in the footsteps of the 1953 expedition through Solu's monasteries and forests — no Lukla flight, full acclimatization, few crowds.</p>
+        <h3 class="text-[19px] font-semibold tracking-wide mb-2" data-ja="パプルー経由・開拓者のルート">Pioneers' Route via Phaplu</h3>
+        <p class="text-white/50 text-xs leading-relaxed mb-5" data-ja="1953年の遠征隊の足跡をたどり、ソルの僧院と森を抜ける道。ルクラへのフライトなし、十分な高度順応、そして少ない人混み。">Walk in the footsteps of the 1953 expedition through Solu's monasteries and forests — no Lukla flight, full acclimatization, few crowds.</p>
         <div class="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-4 text-center">
-          <div><p class="text-white font-bold text-sm">20 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Duration</p></div>
-          <div><p class="text-white font-bold text-sm">5,545 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">Max Alt.</p></div>
-          <div><p class="text-blue-400 font-bold text-sm">$1,850</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5">From</p></div>
+          <div><p class="text-white font-bold text-sm" data-ja="20日間">20 days</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="日数">Duration</p></div>
+          <div><p class="text-white font-bold text-sm">5,545 m</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="最高標高">Max Alt.</p></div>
+          <div><p class="text-blue-400 font-bold text-sm">$1,850</p><p class="text-white/40 text-[9px] uppercase tracking-wider mt-0.5" data-ja="料金">From</p></div>
         </div>
       </div>
 
@@ -216,23 +225,23 @@
   <section class="max-w-5xl mx-auto px-4 sm:px-8 pb-20">
     <div class="reveal relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[28px] p-8 sm:p-10">
       <div class="glow-pulse absolute right-0 top-0 w-[240px] h-[240px] bg-blue-600/10 rounded-full blur-[90px] pointer-events-none"></div>
-      <span class="text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block">Every tour includes</span>
+      <span class="text-[#ff3b30] uppercase text-[11px] tracking-[0.25em] font-extrabold mb-3 block" data-ja="すべてのツアーに含まれるもの">Every tour includes</span>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3 mt-4 relative z-10">
-        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>All national park &amp; municipality permits arranged for you</p>
-        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>Government-licensed, English-speaking Sherpa guide</p>
-        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>Porters at a fair 1:2 ratio with full insurance &amp; gear</p>
-        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>Teahouse lodging &amp; three meals a day on trek</p>
-        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>Kathmandu–Lukla flights &amp; airport transfers</p>
-        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>Daily oximeter health checks &amp; full first-aid kit</p>
+        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0" data-ja='<span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>国立公園・自治体のすべての許可証を当社が手配'></span>All national park &amp; municipality permits arranged for you</p>
+        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0" data-ja='<span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>政府公認・英語対応のシェルパガイド'></span>Government-licensed, English-speaking Sherpa guide</p>
+        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0" data-ja='<span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>公正な1:2の比率のポーター（保険・装備完備）'></span>Porters at a fair 1:2 ratio with full insurance &amp; gear</p>
+        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0" data-ja='<span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>トレック中の茶屋泊と1日3食'></span>Teahouse lodging &amp; three meals a day on trek</p>
+        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0" data-ja='<span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>カトマンズ〜ルクラ間のフライトと空港送迎'></span>Kathmandu–Lukla flights &amp; airport transfers</p>
+        <p class="text-white/70 text-[13px] flex items-start gap-2.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0" data-ja='<span class="w-1.5 h-1.5 rounded-full bg-[#ff3b30] mt-1.5 flex-shrink-0"></span>毎日のパルスオキシメーターによる健康チェックと救急キット完備'></span>Daily oximeter health checks &amp; full first-aid kit</p>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
   <section class="max-w-5xl mx-auto px-4 sm:px-8 pb-24 text-center">
-    <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight mb-6">Ready to walk <span class="font-serif italic font-light text-blue-400">among</span> giants?</h2>
+    <h2 class="reveal text-2xl sm:text-4xl font-medium tracking-tight mb-6" data-ja='巨峰の <span class="font-serif italic font-light text-blue-400">間を</span> 歩く準備はできましたか？'>Ready to walk <span class="font-serif italic font-light text-blue-400">among</span> giants?</h2>
     <a href="contact.html" class="reveal inline-flex group bg-white text-black pl-7 pr-2 py-2 rounded-full font-semibold text-sm items-center gap-4 hover:bg-neutral-100 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-white/5" style="transition-delay:.1s">
-      <span class="font-medium tracking-wide">Plan My Trek</span>
+      <span class="font-medium tracking-wide" data-ja="トレックを計画する">Plan My Trek</span>
       <span class="bg-[#0051e0] group-hover:bg-[#0041b3] text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 shadow-md">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
       </span>
@@ -241,7 +250,7 @@
 
   <!-- FOOTER -->
   <footer class="w-full text-center text-neutral-600 text-[11px] py-8 select-none border-t border-white/5 bg-[#030303]">
-    <p>© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.</p>
+    <p data-ja="© 2026 EVEREST Expeditions · ネパール、カトマンズ、タメル。シェルパが導き、サガルマータに導かれて。">© 2026 EVEREST Expeditions · Thamel, Kathmandu, Nepal. Guided by Sherpas, inspired by Sagarmatha.</p>
   </footer>
 
   <!-- FULLSCREEN MENU OVERLAY -->
@@ -260,7 +269,17 @@
       <a href="about.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:3"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">04</span><span class="group-hover:translate-x-2 transition-transform duration-300">About us</span></a>
       <a href="contact.html" class="menu-link group flex items-baseline gap-4 text-white/85 hover:text-white text-3xl sm:text-5xl font-medium tracking-tight" style="--i:4"><span class="text-[11px] sm:text-xs font-mono text-[#ff3b30] tracking-widest">05</span><span class="group-hover:translate-x-2 transition-transform duration-300">Contact</span></a>
     </nav>
-    <div class="menu-link pb-8 sm:pb-10 text-center text-white/40 text-[11px] sm:text-xs tracking-wider select-none" style="--i:5">
+    <div class="flex justify-center gap-3 pb-6">
+      <button data-set-lang="en" class="lang-btn flag-btn flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-white/15">
+        <span class="w-7 h-5 rounded-[3px] overflow-hidden inline-block border border-white/20 shrink-0"><svg viewBox="0 0 60 40" preserveAspectRatio="none" class="w-full h-full block"><rect width="60" height="40" fill="#012169"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="8"/><path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/><rect x="25" width="10" height="40" fill="#fff"/><rect y="15" width="60" height="10" fill="#fff"/><rect x="27" width="6" height="40" fill="#C8102E"/><rect y="17" width="60" height="6" fill="#C8102E"/></svg></span>
+        <span class="text-sm font-semibold text-white">English</span>
+      </button>
+      <button data-set-lang="ja" class="lang-btn flag-btn flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-white/15">
+        <span class="w-7 h-5 rounded-[3px] overflow-hidden inline-block border border-white/20 shrink-0"><svg viewBox="0 0 60 40" preserveAspectRatio="none" class="w-full h-full block"><rect width="60" height="40" fill="#fff"/><circle cx="30" cy="20" r="11" fill="#bc002d"/></svg></span>
+        <span class="text-sm font-semibold text-white">日本語</span>
+      </button>
+    </div>
+    <div data-ja='ネパール、カトマンズ、タメル &nbsp;·&nbsp; namaste@everest-expeditions.com.np' class="menu-link pb-8 sm:pb-10 text-center text-white/40 text-[11px] sm:text-xs tracking-wider select-none" style="--i:5">
       Thamel, Kathmandu, Nepal &nbsp;·&nbsp; namaste@everest-expeditions.com.np
     </div>
   </div>
@@ -291,6 +310,33 @@
     window.addEventListener("scroll", onHeaderScroll, { passive: true });
     onHeaderScroll();
   }
+
+  /* ---------- Language switch (English / 日本語) ---------- */
+  const NAV_JA = { "Home":"ホーム", "Tours":"ツアー", "Expeditions":"遠征", "About us":"私たちについて", "Contact":"お問い合わせ", "Menu":"メニュー", "Close":"閉じる" };
+  const store = new Map();
+  [...document.querySelectorAll("header nav a"),
+   ...document.querySelectorAll("#menu-overlay nav a > span:last-child"),
+   ...document.querySelectorAll("#menu-btn > span"),
+   ...document.querySelectorAll("#menu-close > span")
+  ].forEach(el => { const en = el.textContent.trim(); if (NAV_JA[en]) store.set(el, { en, ja: NAV_JA[en], html: false }); });
+  document.querySelectorAll("[data-ja]").forEach(el => store.set(el, { en: el.innerHTML, ja: el.getAttribute("data-ja"), html: true }));
+  const phEls = [...document.querySelectorAll("[data-ja-ph]")];
+  phEls.forEach(el => el._enPh = el.getAttribute("placeholder") || "");
+
+  function updateLangButtons(l) {
+    document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("lang-active", b.getAttribute("data-set-lang") === l));
+  }
+  function setLang(l) {
+    document.documentElement.setAttribute("lang", l);
+    localStorage.setItem("site-lang", l);
+    store.forEach((v, el) => { const val = (l === "ja") ? v.ja : v.en; if (v.html) el.innerHTML = val; else el.textContent = val; });
+    phEls.forEach(el => el.setAttribute("placeholder", (l === "ja") ? el.getAttribute("data-ja-ph") : el._enPh));
+    updateLangButtons(l);
+  }
+  let siteLang = localStorage.getItem("site-lang");
+  if (!siteLang) siteLang = (navigator.language || "").toLowerCase().startsWith("ja") ? "ja" : "en";
+  setLang(siteLang);
+  document.querySelectorAll(".lang-btn").forEach(b => b.addEventListener("click", () => setLang(b.getAttribute("data-set-lang"))));
 })();
 </script>
 </body>
